@@ -667,8 +667,9 @@ main {
 
     .roster-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
         gap: var(--spacing-md);
+        justify-content: center;
     }
 
     .player-card {
@@ -679,6 +680,7 @@ main {
         border: 2px solid rgba(0, 255, 0, 0.24);
         position: relative;
         box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.12);
+        max-width: 280px;
     }
 
     /* Gravestone crack effect disabled to remove vertical line */
