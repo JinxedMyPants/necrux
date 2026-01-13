@@ -746,11 +746,14 @@ interactiveCards.forEach(card => {
 });
 
 // ===================================
-// Background Audio
+// Background Audio (Web Audio API)
 // ===================================
-const bgAudio = document.getElementById('bgAudio');
 const audioToggle = document.getElementById('audioToggle');
-let audioInitialized = false;
+let audioContext;
+let audioSource;
+let gainNode;
+let audioBuffer;
+let isPlaying = false;
 
 const setAudioToggleState = (muted) => {
     if (!audioToggle) return;
@@ -764,90 +767,84 @@ const setAudioToggleState = (muted) => {
 
 if (audioToggle) setAudioToggleState(true);
 
-const initAudio = () => {
-    if (!bgAudio || audioInitialized) return;
-    audioInitialized = true;
-    
-    // Audio should already be playing muted via autoplay attribute
-    // Just unmute it and set volume
-    bgAudio.volume = 0.05;
-    bgAudio.muted = false;
-    
-    // Verify it's playing
-    if (bgAudio.paused) {
-        bgAudio.play().then(() => {
-            setAudioToggleState(false);
-            console.log('Anthem playing at', bgAudio.volume * 100 + '% volume');
-        }).catch((err) => {
-            console.log('Play failed:', err);
-            setAudioToggleState(true);
-        });
-    } else {
-        setAudioToggleState(false);
-        console.log('Anthem unmuted at', bgAudio.volume * 100 + '% volume');
-    }
-};
-
-if (audioToggle && bgAudio) {
-    audioToggle.addEventListener('click', () => {
-        if (!audioInitialized) {
-            initAudio();
-        } else {
-            const willMute = !bgAudio.paused && !bgAudio.muted;
-            if (willMute) {
-                bgAudio.pause();
-                bgAudio.muted = true;
-                setAudioToggleState(true);
-            } else {
-                bgAudio.volume = 0.05; // Force volume
-                bgAudio.muted = false;
-                bgAudio.play().then(() => {
-                    setAudioToggleState(false);
-                    console.log('Playing at', bgAudio.volume * 100 + '%');
-                });
-            }
+const initWebAudio = async () => {
+    try {
+        // Create audio context
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
         }
-    });
-}
 
-// Start audio immediately when this script runs
-if (bgAudio) {
-    // Give the audio element a moment to register the autoplay
-    setTimeout(() => {
-        initAudio();
-    }, 100);
-}
+        // Resume context if suspended
+        if (audioContext.state === 'suspended') {
+            await audioContext.resume();
+        }
 
-// Auto-play IMMEDIATELY on page ready (backup)
-if (bgAudio) {
-    // Try as soon as DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!audioInitialized) initAudio();
-        });
-    } else {
-        // DOM already loaded
-        if (!audioInitialized) initAudio();
-    }
-}
+        // Create gain node for volume control (0.05 = 5%)
+        if (!gainNode) {
+            gainNode = audioContext.createGain();
+            gainNode.gain.value = 0.05;
+            gainNode.connect(audioContext.destination);
+        }
 
-// Backup: try on window load
-window.addEventListener('load', () => {
-    if (!audioInitialized && bgAudio) {
-        initAudio();
-    }
-});
+        // Fetch and decode audio if not already loaded
+        if (!audioBuffer) {
+            const response = await fetch('assets/bgm/NCX Anthem.mp3');
+            const arrayBuffer = await response.arrayBuffer();
+            audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        }
 
-// Attempt to start audio on ANY user interaction if autoplay blocked
-const startOnInteraction = () => {
-    if (!audioInitialized && bgAudio) {
-        initAudio();
+        // Stop any existing source
+        if (audioSource) {
+            try {
+                audioSource.stop();
+            } catch (e) {}
+        }
+
+        // Create new source and connect to gain node
+        audioSource = audioContext.createBufferSource();
+        audioSource.buffer = audioBuffer;
+        audioSource.loop = true;
+        audioSource.connect(gainNode);
+
+        // Play immediately
+        audioSource.start(0);
+        isPlaying = true;
+        setAudioToggleState(false);
+        console.log('Anthem playing at 5% volume via Web Audio API');
+    } catch (err) {
+        console.error('Audio init failed:', err);
+        setAudioToggleState(true);
     }
 };
 
-['click', 'touchstart', 'keydown', 'scroll'].forEach(event => {
-    document.addEventListener(event, startOnInteraction, { once: true });
-});
+const stopWebAudio = () => {
+    if (audioSource && isPlaying) {
+        try {
+            audioSource.stop();
+        } catch (e) {}
+        isPlaying = false;
+        setAudioToggleState(true);
+        console.log('Anthem stopped');
+    }
+};
+
+const toggleWebAudio = () => {
+    if (isPlaying) {
+        stopWebAudio();
+    } else {
+        initWebAudio();
+    }
+};
+
+// Attach toggle handler
+if (audioToggle) {
+    audioToggle.addEventListener('click', toggleWebAudio);
+}
+
+// Start immediately when script loads
+setTimeout(() => {
+    initWebAudio();
+}, 50);
 
 // ===================================
 // Console Message
