@@ -70,7 +70,7 @@ class ParticleCanvas {
             // Draw wisp tail (translucent trail)
             for (let j = 0; j < particle.trail.length; j++) {
                 const opacity = (j / particle.trail.length) * 0.3;
-                this.ctx.fillStyle = `rgba(127, 255, 127, ${opacity})`;
+                    this.ctx.fillStyle = `rgba(0, 255, 0, ${opacity})`;
                 this.ctx.beginPath();
                 const tailRadius = (particle.radius * (j / particle.trail.length)) * 0.7;
                 this.ctx.arc(particle.trail[j].x, particle.trail[j].y, Math.max(0.5, tailRadius), 0, Math.PI * 2);
@@ -83,13 +83,13 @@ class ParticleCanvas {
             // Draw particle with undead color mix
             this.ctx.beginPath();
             this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = `rgba(229, 57, 53, ${0.6 * flicker})`;
+                this.ctx.fillStyle = `rgba(0, 255, 0, ${0.6 * flicker})`;
             this.ctx.fill();
             
             // Add undead glow halo
             this.ctx.beginPath();
             this.ctx.arc(particle.x, particle.y, particle.radius + 2, 0, Math.PI * 2);
-            this.ctx.strokeStyle = `rgba(127, 255, 127, ${0.4 * flicker})`;
+                this.ctx.strokeStyle = `rgba(0, 255, 0, ${0.4 * flicker})`;
             this.ctx.lineWidth = 1.5;
             this.ctx.stroke();
 
@@ -102,7 +102,7 @@ class ParticleCanvas {
                 if (distance < 120) {
                     const alpha = 0.2 * (1 - distance / 120);
                     this.ctx.beginPath();
-                    this.ctx.strokeStyle = `rgba(127, 255, 127, ${alpha * 0.6})`;
+                        this.ctx.strokeStyle = `rgba(0, 255, 0, ${alpha * 0.6})`;
                     this.ctx.lineWidth = 1;
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(particle2.x, particle2.y);
@@ -118,7 +118,7 @@ class ParticleCanvas {
 
                 if (distance < 150) {
                     this.ctx.beginPath();
-                    this.ctx.strokeStyle = `rgba(127, 255, 127, ${0.4 * (1 - distance / 150)})`;
+                        this.ctx.strokeStyle = `rgba(0, 255, 0, ${0.4 * (1 - distance / 150)})`;
                     this.ctx.lineWidth = 2;
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(this.mouse.x, this.mouse.y);

@@ -3,6 +3,6 @@
   "short_name": "Necrux",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#00FFFF",
+  "theme_color": "#00FF00",
   "background_color": "#0A0A0F"
 }
