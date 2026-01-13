@@ -551,6 +551,40 @@ discordLinks.forEach(link => {
     }
 });
 
+// Sponsor modal
+const sponsorCta = document.getElementById('sponsorCta');
+const sponsorModal = document.getElementById('sponsorModal');
+const sponsorModalClose = document.getElementById('sponsorModalClose');
+const sponsorModalBackdrop = document.getElementById('sponsorModalBackdrop');
+const sponsorForm = document.getElementById('sponsorForm');
+
+const openSponsorModal = () => {
+    if (sponsorModal) {
+        sponsorModal.classList.add('open');
+        sponsorModal.setAttribute('aria-hidden', 'false');
+    }
+};
+
+const closeSponsorModal = () => {
+    if (sponsorModal) {
+        sponsorModal.classList.remove('open');
+        sponsorModal.setAttribute('aria-hidden', 'true');
+    }
+};
+
+if (sponsorCta) sponsorCta.addEventListener('click', openSponsorModal);
+if (sponsorModalClose) sponsorModalClose.addEventListener('click', closeSponsorModal);
+if (sponsorModalBackdrop) sponsorModalBackdrop.addEventListener('click', closeSponsorModal);
+
+if (sponsorForm) {
+    sponsorForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Thanks for reaching out! We will contact you shortly.');
+        sponsorForm.reset();
+        closeSponsorModal();
+    });
+}
+
 // ===================================
 // Image Lazy Loading Enhancement
 // ===================================

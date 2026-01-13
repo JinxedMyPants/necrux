@@ -364,10 +364,39 @@
                 
                 <div class="sponsor-cta">
                     <p>Interested in partnering with Necrux?</p>
-                    <a href="#contact" class="btn btn-outline">Get in Touch</a>
+                    <button type="button" class="btn btn-outline" id="sponsorCta">Get in Touch</button>
                 </div>
             </div>
         </section>
+
+        <!-- Sponsor Modal -->
+        <div class="modal" id="sponsorModal" aria-hidden="true" role="dialog" aria-labelledby="sponsorModalTitle">
+            <div class="modal-backdrop" id="sponsorModalBackdrop"></div>
+            <div class="modal-content" role="document">
+                <button class="modal-close" id="sponsorModalClose" aria-label="Close sponsor form">×</button>
+                <h3 id="sponsorModalTitle">Become a Sponsor</h3>
+                <p class="modal-subtitle">Tell us about your brand and we’ll reach out fast.</p>
+                <form class="modal-form" id="sponsorForm">
+                    <label>
+                        Your Name
+                        <input type="text" name="name" required placeholder="Your name" />
+                    </label>
+                    <label>
+                        Company
+                        <input type="text" name="company" required placeholder="Company / Brand" />
+                    </label>
+                    <label>
+                        Email
+                        <input type="email" name="email" required placeholder="you@example.com" />
+                    </label>
+                    <label>
+                        Message
+                        <textarea name="message" rows="4" required placeholder="Budget, goals, timeline..."></textarea>
+                    </label>
+                    <button type="submit" class="btn btn-primary btn-full">Send Request</button>
+                </form>
+            </div>
+        </div>
 
         <!-- Contact Section -->
         <section class="section contact-section" id="contact">
