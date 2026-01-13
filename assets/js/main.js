@@ -766,30 +766,55 @@ if (audioToggle) setAudioToggleState(true);
 if (bgAudio) {
     // Set volume to 5%
     bgAudio.volume = 0.05;
+    console.log('Audio element found. Current state:', {
+        src: bgAudio.src,
+        muted: bgAudio.muted,
+        volume: bgAudio.volume,
+        readyState: bgAudio.readyState,
+        networkState: bgAudio.networkState
+    });
     
-    // Unmute as soon as audio data is ready (autoplay attribute handles playback)
+    // Listen for all audio events to debug
+    const audioEvents = ['play', 'pause', 'playing', 'ended', 'canplay', 'canplaythrough', 'loadstart', 'progress', 'suspend', 'abort', 'error', 'emptied', 'stalled', 'loadedmetadata', 'loadeddata', 'durationchange', 'timeupdate', 'ratechange', 'resize', 'volumechange'];
+    audioEvents.forEach(event => {
+        bgAudio.addEventListener(event, () => {
+            console.log(`Audio event: ${event}`, {
+                paused: bgAudio.paused,
+                muted: bgAudio.muted,
+                currentTime: bgAudio.currentTime,
+                duration: bgAudio.duration
+            });
+        });
+    });
+    
+    // Unmute immediately and let autoplay handle it
     const unmute = () => {
         bgAudio.muted = false;
+        bgAudio.volume = 0.05;
         setAudioToggleState(false);
-        console.log('Anthem unmuted and playing at 5% volume');
-        bgAudio.removeEventListener('canplay', unmute);
+        console.log('Anthem unmuted via canplay');
     };
     
-    bgAudio.addEventListener('canplay', unmute);
+    bgAudio.addEventListener('canplay', unmute, { once: true });
     
-    // Fallback: unmute on document ready
-    const doUnmute = () => {
-        if (!bgAudio.muted) return; // Already unmuted
-        bgAudio.muted = false;
-        setAudioToggleState(false);
-        console.log('Anthem unmuted (fallback) at 5% volume');
-    };
+    // Also try unmuting on loadedmetadata
+    bgAudio.addEventListener('loadedmetadata', () => {
+        if (bgAudio.muted) {
+            bgAudio.muted = false;
+            bgAudio.volume = 0.05;
+            console.log('Anthem unmuted via loadedmetadata');
+        }
+    }, { once: true });
     
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', doUnmute);
-    } else {
-        doUnmute();
-    }
+    // Aggressive fallback: unmute after 500ms
+    setTimeout(() => {
+        if (bgAudio.muted) {
+            bgAudio.muted = false;
+            bgAudio.volume = 0.05;
+            setAudioToggleState(false);
+            console.log('Anthem unmuted via timeout');
+        }
+    }, 500);
     
     // Toggle handler
     if (audioToggle) {
