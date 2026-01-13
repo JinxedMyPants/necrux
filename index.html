@@ -31,7 +31,6 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
     
     <!-- Fonts -->
@@ -497,16 +496,22 @@
                 <button class="back-to-top" id="backToTop" aria-label="Back to top">
                     <span class="arrow-up">↑</span>
                 </button>
-                <button class="audio-toggle" id="audioToggle" aria-label="Toggle background audio" aria-pressed="false">
-                    <span class="audio-icon">♫</span>
-                    <span class="audio-label">Play Anthem</span>
-                </button>
+                <div class="audio-controls">
+                    <button class="audio-toggle" id="audioToggle" aria-label="Toggle background audio" aria-pressed="false">
+                        <span class="audio-icon">♫</span>
+                        <span class="audio-label">Play Anthem</span>
+                    </button>
+                    <div class="volume-control">
+                        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="5" aria-label="Volume control">
+                        <span class="volume-label">5%</span>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Background audio - muted autoplay bypasses user gesture requirement -->
-    <audio id="bgAudio" src="assets/bgm/NCX Anthem.mp3" preload="auto" autoplay muted loop></audio>
+    <!-- Background audio - toggle via button -->
+    <audio id="bgAudio" src="assets/bgm/NCX Anthem.mp3" preload="auto" loop></audio>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

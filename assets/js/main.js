@@ -750,6 +750,9 @@ interactiveCards.forEach(card => {
 // ===================================
 const bgAudio = document.getElementById('bgAudio');
 const audioToggle = document.getElementById('audioToggle');
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeControl = document.querySelector('.volume-control');
+const volumeLabel = document.querySelector('.volume-label');
 
 const setAudioToggleState = (muted) => {
     if (!audioToggle) return;
@@ -764,74 +767,37 @@ const setAudioToggleState = (muted) => {
 if (audioToggle) setAudioToggleState(true);
 
 if (bgAudio) {
-    // Set volume to 5%
-    bgAudio.volume = 0.05;
-    console.log('Audio element found. Current state:', {
-        src: bgAudio.src,
-        muted: bgAudio.muted,
-        volume: bgAudio.volume,
-        readyState: bgAudio.readyState,
-        networkState: bgAudio.networkState
-    });
+    bgAudio.volume = 0.05; // 5% volume
     
-    // Function to unmute AND play
-    const unmutAndPlay = () => {
-        bgAudio.muted = false;
-        bgAudio.volume = 0.05;
-        
-        // Call play() and handle the promise
-        const playPromise = bgAudio.play();
-        if (playPromise !== undefined) {
-            playPromise
-                .then(() => {
-                    setAudioToggleState(false);
-                    console.log('✓ Anthem playing at 5% volume');
-                })
-                .catch((err) => {
-                    console.error('Play failed:', err);
-                    // Retry after a delay
-                    setTimeout(() => {
-                        bgAudio.play().catch(e => console.error('Retry play failed:', e));
-                    }, 100);
-                });
-        } else {
-            // Older browsers
-            setAudioToggleState(false);
-            console.log('✓ Anthem playing (legacy)');
-        }
-    };
-    
-    // Try unmuting on multiple events
-    bgAudio.addEventListener('canplay', unmutAndPlay, { once: true });
-    bgAudio.addEventListener('loadedmetadata', unmutAndPlay, { once: true });
-    
-    // Aggressive timeout fallback
-    setTimeout(() => {
-        if (bgAudio.paused) {
-            console.log('Timeout unmute - forcing play');
-            unmutAndPlay();
-        }
-    }, 1000);
-    
-    // Toggle handler - use user gesture to ensure play works
     if (audioToggle) {
         audioToggle.addEventListener('click', () => {
-            if (bgAudio.muted) {
-                bgAudio.muted = false;
-                bgAudio.volume = 0.05;
-                const playPromise = bgAudio.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        setAudioToggleState(false);
-                        console.log('Anthem playing');
-                    }).catch(e => console.error('Play error:', e));
-                }
+            if (bgAudio.paused) {
+                bgAudio.play().catch(() => {}); // Silent fail
+                audioToggle.classList.remove('muted');
+                audioToggle.setAttribute('aria-pressed', 'true');
+                volumeControl?.classList.add('visible');
+                const label = audioToggle.querySelector('.audio-label');
+                const icon = audioToggle.querySelector('.audio-icon');
+                if (label) label.textContent = 'Mute Anthem';
+                if (icon) icon.textContent = '♪';
             } else {
-                bgAudio.muted = true;
                 bgAudio.pause();
-                setAudioToggleState(true);
-                console.log('Anthem muted');
+                audioToggle.classList.add('muted');
+                audioToggle.setAttribute('aria-pressed', 'false');
+                volumeControl?.classList.remove('visible');
+                const label = audioToggle.querySelector('.audio-label');
+                const icon = audioToggle.querySelector('.audio-icon');
+                if (label) label.textContent = 'Play Anthem';
+                if (icon) icon.textContent = '♫';
             }
+        });
+    }
+
+    if (volumeSlider) {
+        volumeSlider.addEventListener('input', (e) => {
+            const percentage = parseInt(e.target.value);
+            bgAudio.volume = percentage / 100;
+            if (volumeLabel) volumeLabel.textContent = percentage + '%';
         });
     }
 }
