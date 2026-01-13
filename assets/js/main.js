@@ -572,19 +572,23 @@ const contactForm = document.getElementById('contactForm');
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        // Get form data
         const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData);
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const role = formData.get('role');
+        const message = formData.get('message');
+
+        const subject = encodeURIComponent('Necrux Player Application');
+        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nPreferred Role: ${role}\n\nAbout:\n${message}`);
+        const mailtoLink = `mailto:raphael.kehldorfer@gmail.com?subject=${subject}&body=${body}`;
+
+        // Create and click anchor element
+        const link = document.createElement('a');
+        link.href = mailtoLink;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         
-        // Here you would typically send the data to a server
-        // For now, we'll just show a success message
-        console.log('Form submitted:', data);
-        
-        // Show success message (you can customize this)
-        alert('Thank you for your interest! We will review your application and get back to you soon. Join our Discord for faster response!');
-        
-        // Reset form
         contactForm.reset();
     });
 }
@@ -612,9 +616,7 @@ backToTopButton.addEventListener('click', () => {
 // ===================================
 // Discord Link Management
 // ===================================
-// Update with your actual Discord invite link
-// Placeholder anchors to Contact so the CTA always does something if no invite is set
-const DISCORD_INVITE = '#contact';
+const DISCORD_INVITE = 'https://discord.gg/XNR3be2t';
 
 // Update all Discord links
 const discordLinks = [
@@ -667,23 +669,22 @@ if (sponsorForm) {
     sponsorForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const formData = new FormData(sponsorForm);
-        const name = encodeURIComponent(formData.get('name') || '');
-        const company = encodeURIComponent(formData.get('company') || '');
-        const email = encodeURIComponent(formData.get('email') || '');
-        const message = encodeURIComponent(formData.get('message') || '');
+        const name = formData.get('name');
+        const company = formData.get('company');
+        const email = formData.get('email');
+        const message = formData.get('message');
 
         const subject = encodeURIComponent('Necrux Sponsorship Inquiry');
-        const bodyLines = [
-            `Name: ${name}`,
-            `Company: ${company}`,
-            `Email: ${email}`,
-            '',
-            'Message:',
-            message
-        ];
-        const body = bodyLines.join('%0D%0A');
+        const body = encodeURIComponent(`Name: ${name}\nCompany: ${company}\nEmail: ${email}\n\nProposal:\n${message}`);
+        const mailtoLink = `mailto:raphael.kehldorfer@gmail.com?subject=${subject}&body=${body}`;
 
-        window.location.href = `mailto:raphael.kehldorfer@gmail.com?subject=${subject}&body=${body}`;
+        // Create and click anchor element
+        const link = document.createElement('a');
+        link.href = mailtoLink;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
         sponsorForm.reset();
         closeSponsorModal();
     });
