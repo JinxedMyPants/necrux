@@ -765,26 +765,31 @@ const setAudioToggleState = (muted) => {
 if (audioToggle) setAudioToggleState(true);
 
 const initAudio = () => {
-    if (!bgAudio) return;
-    bgAudio.muted = false;
+    if (!bgAudio || audioInitialized) return;
+    
+    // Set volume FIRST while still muted
     bgAudio.volume = 0.05;
-    const attemptPlay = bgAudio.play();
-    if (attemptPlay) {
-        attemptPlay.then(() => {
-            audioInitialized = true;
-            setAudioToggleState(false);
-        }).catch(() => {
-            // Autoplay likely blocked; stay muted state until user interacts
-            setAudioToggleState(true);
-        });
-    }
+    // Small delay to ensure volume is set
+    setTimeout(() => {
+        bgAudio.muted = false;
+        const attemptPlay = bgAudio.play();
+        if (attemptPlay) {
+            attemptPlay.then(() => {
+                audioInitialized = true;
+                setAudioToggleState(false);
+                console.log('Anthem playing at', bgAudio.volume * 100 + '% volume');
+            }).catch((err) => {
+                console.log('Autoplay blocked:', err);
+                setAudioToggleState(true);
+            });
+        }
+    }, 50);
 };
 
 if (audioToggle && bgAudio) {
     audioToggle.addEventListener('click', () => {
         if (!audioInitialized) {
             initAudio();
-            audioInitialized = true;
         } else {
             const willMute = !bgAudio.paused && !bgAudio.muted;
             if (willMute) {
@@ -792,24 +797,28 @@ if (audioToggle && bgAudio) {
                 bgAudio.muted = true;
                 setAudioToggleState(true);
             } else {
+                bgAudio.volume = 0.05; // Force volume
                 bgAudio.muted = false;
-                bgAudio.volume = 0.05;
-                bgAudio.play();
-                setAudioToggleState(false);
+                bgAudio.play().then(() => {
+                    setAudioToggleState(false);
+                    console.log('Playing at', bgAudio.volume * 100 + '%');
+                });
             }
         }
     });
 }
 
-// Auto-play on page ready - try immediately
+// Auto-play IMMEDIATELY on page ready
 if (bgAudio) {
-    document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => {
-            if (!audioInitialized) {
-                initAudio();
-            }
-        }, 100);
-    });
+    // Try as soon as DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            initAudio();
+        });
+    } else {
+        // DOM already loaded
+        initAudio();
+    }
 }
 
 // Backup: try on window load
