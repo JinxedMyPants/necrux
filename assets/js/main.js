@@ -740,7 +740,7 @@ if (audioToggle) setAudioToggleState(true);
 
 const initAudio = () => {
     if (!bgAudio) return;
-    bgAudio.volume = 0.1;
+    bgAudio.volume = 0.05;
     bgAudio.muted = false;
     const attemptPlay = bgAudio.play();
     if (attemptPlay) {
@@ -767,13 +767,22 @@ if (audioToggle && bgAudio) {
                 setAudioToggleState(true);
             } else {
                 bgAudio.muted = false;
-                bgAudio.volume = 0.1;
+                bgAudio.volume = 0.05;
                 bgAudio.play();
                 setAudioToggleState(false);
             }
         }
     });
 }
+
+// Auto-play on page load
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        if (!audioInitialized && bgAudio) {
+            initAudio();
+        }
+    }, 500);
+});
 
 // Attempt to start audio on first user interaction if autoplay blocked
 document.addEventListener('click', () => {

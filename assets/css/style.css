@@ -18,7 +18,7 @@
     /* Pure black background */
     --color-dark-gray: #080a10;
     --color-darker-gray: #030508;
-    --color-light-gray: #d0d5e8;
+    --color-light-gray: #e8ecf5;
     --color-white: #FFFFFF;
     --color-success: #00FF88;
     --color-warning: #FFB800;
@@ -81,7 +81,7 @@ main {
         content: '';
         position: fixed;
         inset: 0;
-        background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+        background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
         pointer-events: none;
         z-index: 10;
     }
@@ -100,9 +100,9 @@ main {
     }
 
     @keyframes fogDrift {
-        0% { opacity: 0.85; transform: translateY(0); }
-        50% { opacity: 0.95; }
-        100% { opacity: 0.88; transform: translateY(-5px); }
+        0% { opacity: 0.65; transform: translateY(0); }
+        50% { opacity: 0.75; }
+        100% { opacity: 0.68; transform: translateY(-5px); }
     }
 
     /* Reduced Motion Support */
@@ -668,7 +668,7 @@ main {
 
     /* Roster Section */
     .roster-section {
-        background: var(--color-darker-gray);
+        background: rgba(15, 18, 25, 0.85);
     }
 
     .roster-filter {
@@ -894,7 +894,7 @@ main {
 
     /* Achievements Section */
     .achievements-section {
-        background: var(--color-darker-gray);
+        background: rgba(15, 18, 25, 0.85);
     }
 
     .achievements-grid {
@@ -1008,7 +1008,7 @@ main {
 
     /* Contact Section */
     .contact-section {
-        background: var(--color-darker-gray);
+        background: rgba(15, 18, 25, 0.85);
     }
 
     .contact-grid {
