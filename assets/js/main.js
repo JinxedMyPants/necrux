@@ -766,8 +766,8 @@ if (audioToggle) setAudioToggleState(true);
 
 const initAudio = () => {
     if (!bgAudio) return;
-    bgAudio.volume = 0.05;
     bgAudio.muted = false;
+    bgAudio.volume = 0.05;
     const attemptPlay = bgAudio.play();
     if (attemptPlay) {
         attemptPlay.then(() => {
@@ -801,22 +801,34 @@ if (audioToggle && bgAudio) {
     });
 }
 
-// Auto-play on page load
+// Auto-play on page ready - try immediately
+if (bgAudio) {
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            if (!audioInitialized) {
+                initAudio();
+            }
+        }, 100);
+    });
+}
+
+// Backup: try on window load
 window.addEventListener('load', () => {
-    setTimeout(() => {
-        if (!audioInitialized && bgAudio) {
-            initAudio();
-        }
-    }, 500);
+    if (!audioInitialized && bgAudio) {
+        initAudio();
+    }
 });
 
-// Attempt to start audio on first user interaction if autoplay blocked
-document.addEventListener('click', () => {
-    if (!audioInitialized) {
+// Attempt to start audio on ANY user interaction if autoplay blocked
+const startOnInteraction = () => {
+    if (!audioInitialized && bgAudio) {
         initAudio();
-        audioInitialized = true;
     }
-}, { once: true });
+};
+
+['click', 'touchstart', 'keydown', 'scroll'].forEach(event => {
+    document.addEventListener(event, startOnInteraction, { once: true });
+});
 
 // ===================================
 // Console Message
