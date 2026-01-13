@@ -754,6 +754,7 @@ let audioSource;
 let gainNode;
 let audioBuffer;
 let isPlaying = false;
+let contextInitiated = false;
 
 const setAudioToggleState = (muted) => {
     if (!audioToggle) return;
@@ -769,9 +770,10 @@ if (audioToggle) setAudioToggleState(true);
 
 const initWebAudio = async () => {
     try {
-        // Create audio context
-        if (!audioContext) {
+        // Create audio context on first user interaction
+        if (!contextInitiated) {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            contextInitiated = true;
         }
 
         // Resume context if suspended
@@ -841,10 +843,18 @@ if (audioToggle) {
     audioToggle.addEventListener('click', toggleWebAudio);
 }
 
-// Start immediately when script loads
-setTimeout(() => {
+// Start on ANY user interaction (required by browsers)
+const startAudioOnGesture = () => {
     initWebAudio();
-}, 50);
+    // Remove listener after first gesture
+    ['click', 'touchstart', 'keydown'].forEach(event => {
+        document.removeEventListener(event, startAudioOnGesture);
+    });
+};
+
+['click', 'touchstart', 'keydown'].forEach(event => {
+    document.addEventListener(event, startAudioOnGesture);
+});
 
 // ===================================
 // Console Message
