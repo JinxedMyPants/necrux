@@ -14,10 +14,10 @@
     /* Mint Green */
     --color-undead: #00FF00;
     /* Neon Green (undead/necromantic) */
-    --color-dark: #050507;
-    /* Darker black background */
-    --color-dark-gray: #0f1118;
-    --color-darker-gray: #0a0d13;
+    --color-dark: #000000;
+    /* Pure black background */
+    --color-dark-gray: #080a10;
+    --color-darker-gray: #030508;
     --color-light-gray: #d0d5e8;
     --color-white: #FFFFFF;
     --color-success: #00FF88;
@@ -74,18 +74,35 @@ main {
         color: var(--color-white);
         line-height: 1.6;
         overflow-x: hidden;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+        pointer-events: none;
+        z-index: 10;
     }
 
     .fog-overlay {
         position: fixed;
         inset: 0;
         pointer-events: none;
-        background: radial-gradient(ellipse at 30% 20%, rgba(0, 255, 0, 0.06), transparent 40%),
-            radial-gradient(ellipse at 70% 10%, rgba(255, 255, 0, 0.05), transparent 38%),
-            linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 10, 0, 0.25) 35%, rgba(0, 0, 0, 0.55) 100%);
-        mix-blend-mode: screen;
+        background: 
+            radial-gradient(ellipse at 30% 20%, rgba(0, 255, 0, 0.15), transparent 35%),
+            radial-gradient(ellipse at 70% 80%, rgba(0, 255, 0, 0.12), transparent 40%),
+            radial-gradient(ellipse at 50% 50%, rgba(255, 255, 0, 0.08), transparent 45%),
+            linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 20, 0, 0.5) 30%, rgba(0, 0, 0, 0.8) 100%);
         z-index: 5;
-        opacity: 0.85;
+        animation: fogDrift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes fogDrift {
+        0% { opacity: 0.85; transform: translateY(0); }
+        50% { opacity: 0.95; }
+        100% { opacity: 0.88; transform: translateY(-5px); }
     }
 
     /* Reduced Motion Support */
@@ -305,10 +322,16 @@ main {
         right: 0;
         bottom: 0;
         background: radial-gradient(ellipse at center,
-                rgba(0, 255, 0, 0.15) 0%,
-                rgba(255, 255, 0, 0.08) 30%,
-                rgba(10, 10, 15, 0.9) 70%,
-                rgba(10, 10, 15, 1) 100%);
+                rgba(0, 255, 0, 0.25) 0%,
+                rgba(255, 255, 0, 0.15) 25%,
+                rgba(0, 0, 0, 0.9) 60%,
+                rgba(0, 0, 0, 1) 100%);
+        animation: pulseGlow 8s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.85; }
     }
 
     .hero-content {

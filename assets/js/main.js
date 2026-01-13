@@ -225,10 +225,10 @@ if (!prefersReducedMotion) {
     const handleParallax = () => {
         if (!heroBg || !heroContent) return;
         const scrollY = window.scrollY;
-        const offset = Math.min(scrollY * 0.2, 80);
-        const contentOffset = Math.min(scrollY * 0.1, 40);
+        const offset = Math.min(scrollY * 0.5, 200);
+        const contentOffset = Math.min(scrollY * 0.15, 60);
         heroBg.style.transform = `translateY(${offset}px)`;
-        heroContent.style.transform = `translateY(${contentOffset * -0.3}px)`;
+        heroContent.style.transform = `translateY(${contentOffset * -0.5}px) scale(${1 - scrollY * 0.0002})`;
         ticking = false;
     };
 
@@ -725,7 +725,6 @@ interactiveCards.forEach(card => {
 const bgAudio = document.getElementById('bgAudio');
 const audioToggle = document.getElementById('audioToggle');
 let audioInitialized = false;
-setAudioToggleState(true);
 
 const setAudioToggleState = (muted) => {
     if (!audioToggle) return;
@@ -736,6 +735,8 @@ const setAudioToggleState = (muted) => {
     if (label) label.textContent = muted ? 'Play Anthem' : 'Mute Anthem';
     if (icon) icon.textContent = muted ? '♫' : '♪';
 };
+
+if (audioToggle) setAudioToggleState(true);
 
 const initAudio = () => {
     if (!bgAudio) return;
