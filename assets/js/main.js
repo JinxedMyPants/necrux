@@ -579,7 +579,24 @@ if (sponsorModalBackdrop) sponsorModalBackdrop.addEventListener('click', closeSp
 if (sponsorForm) {
     sponsorForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        alert('Thanks for reaching out! We will contact you shortly.');
+        const formData = new FormData(sponsorForm);
+        const name = encodeURIComponent(formData.get('name') || '');
+        const company = encodeURIComponent(formData.get('company') || '');
+        const email = encodeURIComponent(formData.get('email') || '');
+        const message = encodeURIComponent(formData.get('message') || '');
+
+        const subject = encodeURIComponent('Necrux Sponsorship Inquiry');
+        const bodyLines = [
+            `Name: ${name}`,
+            `Company: ${company}`,
+            `Email: ${email}`,
+            '',
+            'Message:',
+            message
+        ];
+        const body = bodyLines.join('%0D%0A');
+
+        window.location.href = `mailto:raphael.kehldorfer@gmail.com?subject=${subject}&body=${body}`;
         sponsorForm.reset();
         closeSponsorModal();
     });
