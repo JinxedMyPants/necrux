@@ -38,7 +38,11 @@ class ParticleCanvas {
                 y: Math.random() * this.canvas.height,
                 vx: (Math.random() - 0.5) * 0.5,
                 vy: (Math.random() - 0.5) * 0.5,
-                radius: Math.random() * 2 + 1
+                radius: Math.random() * 2 + 1,
+                trail: [], // For wisp tail effect
+                trailLength: 10,
+                age: 0, // For flickering effect
+                lifespan: Math.random() * 100 + 50
             });
         }
     }
@@ -51,26 +55,54 @@ class ParticleCanvas {
             // Update position
             particle.x += particle.vx;
             particle.y += particle.vy;
+            particle.age++;
 
             // Bounce off edges
             if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
             if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
 
-            // Draw particle
+            // Add to trail for wisp effect
+            particle.trail.push({ x: particle.x, y: particle.y });
+            if (particle.trail.length > particle.trailLength) {
+                particle.trail.shift();
+            }
+
+            // Draw wisp tail (translucent trail)
+            for (let j = 0; j < particle.trail.length; j++) {
+                const opacity = (j / particle.trail.length) * 0.3;
+                this.ctx.fillStyle = `rgba(127, 255, 127, ${opacity})`;
+                this.ctx.beginPath();
+                const tailRadius = (particle.radius * (j / particle.trail.length)) * 0.7;
+                this.ctx.arc(particle.trail[j].x, particle.trail[j].y, Math.max(0.5, tailRadius), 0, Math.PI * 2);
+                this.ctx.fill();
+            }
+
+            // Flickering glow effect
+            const flicker = Math.sin(particle.age * 0.1) * 0.3 + 0.7;
+            
+            // Draw particle with undead color mix
             this.ctx.beginPath();
             this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = 'rgba(229, 57, 53, 0.6)';
+            this.ctx.fillStyle = `rgba(229, 57, 53, ${0.6 * flicker})`;
             this.ctx.fill();
+            
+            // Add undead glow halo
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.radius + 2, 0, Math.PI * 2);
+            this.ctx.strokeStyle = `rgba(127, 255, 127, ${0.4 * flicker})`;
+            this.ctx.lineWidth = 1.5;
+            this.ctx.stroke();
 
-            // Draw connections
+            // Draw connections with mixed red/green
             this.particles.slice(i + 1).forEach(particle2 => {
                 const dx = particle.x - particle2.x;
                 const dy = particle.y - particle2.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance < 120) {
+                    const alpha = 0.2 * (1 - distance / 120);
                     this.ctx.beginPath();
-                    this.ctx.strokeStyle = `rgba(229, 57, 53, ${0.2 * (1 - distance / 120)})`;
+                    this.ctx.strokeStyle = `rgba(127, 255, 127, ${alpha * 0.6})`;
                     this.ctx.lineWidth = 1;
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(particle2.x, particle2.y);
@@ -78,7 +110,7 @@ class ParticleCanvas {
                 }
             });
 
-            // Mouse interaction
+            // Mouse interaction - souls drawn to cursor
             if (this.mouse.x !== null && this.mouse.y !== null) {
                 const dx = particle.x - this.mouse.x;
                 const dy = particle.y - this.mouse.y;
@@ -86,7 +118,7 @@ class ParticleCanvas {
 
                 if (distance < 150) {
                     this.ctx.beginPath();
-                    this.ctx.strokeStyle = `rgba(0, 200, 83, ${0.3 * (1 - distance / 150)})`;
+                    this.ctx.strokeStyle = `rgba(127, 255, 127, ${0.4 * (1 - distance / 150)})`;
                     this.ctx.lineWidth = 2;
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(this.mouse.x, this.mouse.y);

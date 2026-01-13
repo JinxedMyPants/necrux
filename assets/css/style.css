@@ -9,6 +9,7 @@
     --color-primary: #E53935;   /* Red */
     --color-secondary: #00C853; /* Green */
     --color-accent: #00E676;    /* Light Green accent */
+    --color-undead: #7FFF7F;    /* Sickly Undead Green */
     --color-dark: #0A0A0F;      /* Black background */
     --color-dark-gray: #1A1A24;
     --color-darker-gray: #12141f;
@@ -36,7 +37,9 @@
     /* Effects */
     --glow-primary: 0 0 20px rgba(229, 57, 53, 0.5);
     --glow-secondary: 0 0 30px rgba(0, 200, 83, 0.6);
+    --glow-undead: 0 0 25px rgba(127, 255, 127, 0.6);
     --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --aura-undead: 0 0 40px rgba(127, 255, 127, 0.4), 0 0 20px rgba(229, 57, 53, 0.3);
 }
 
 /* Reset & Base Styles */
@@ -315,7 +318,41 @@ a:focus-visible {
     text-shadow: 
         0 0 10px var(--color-primary),
         0 0 20px var(--color-primary),
-        0 0 30px var(--color-primary);
+        0 0 30px var(--color-primary),
+        0 0 15px var(--color-undead);
+    animation: undead-flicker 4s ease-in-out infinite;
+}
+
+/* Undead Flicker Animation */
+@keyframes undead-flicker {
+    0%, 100% {
+        text-shadow: 
+            0 0 10px var(--color-primary),
+            0 0 20px var(--color-primary),
+            0 0 30px var(--color-primary),
+            0 0 15px var(--color-undead);
+        opacity: 1;
+    }
+    15% {
+        text-shadow: 
+            0 0 20px var(--color-undead),
+            0 0 30px var(--color-primary),
+            0 0 40px var(--color-primary);
+        opacity: 0.95;
+    }
+    35% {
+        text-shadow: 
+            0 0 10px var(--color-primary),
+            0 0 15px var(--color-undead);
+        opacity: 0.9;
+    }
+    50% {
+        text-shadow: 
+            0 0 25px var(--color-undead),
+            0 0 35px var(--color-primary),
+            0 0 45px var(--color-primary);
+        opacity: 1;
+    }
 }
 
 /* Glitch Animation */
@@ -525,12 +562,26 @@ a:focus-visible {
     border-radius: 8px;
     text-align: center;
     border: 1px solid rgba(229, 57, 53, 0.2);
+    border-left: 4px solid var(--color-undead);
     transition: all var(--transition-normal);
+    position: relative;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, rgba(127, 255, 127, 0.1), transparent);
+    border-radius: 8px;
+    pointer-events: none;
 }
 
 .stat-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--glow-primary);
+    box-shadow: var(--glow-primary), var(--glow-undead);
     border-color: var(--color-primary);
 }
 
@@ -595,13 +646,38 @@ a:focus-visible {
     border-radius: 12px;
     overflow: hidden;
     transition: all var(--transition-normal);
-    border: 1px solid rgba(229, 57, 53, 0.1);
+    border: 2px solid rgba(229, 57, 53, 0.2);
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(127, 255, 127, 0.05);
+}
+
+/* Gravestone crack effect */
+.player-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(135deg, transparent 48%, rgba(229, 57, 53, 0.1) 49%, rgba(229, 57, 53, 0.1) 51%, transparent 52%),
+        linear-gradient(-135deg, transparent 48%, rgba(127, 255, 127, 0.08) 49%, rgba(127, 255, 127, 0.08) 51%, transparent 52%);
+    background-size: 100% 2px, 100% 2px;
+    background-position: 0 2px, 0 8px;
+    background-repeat: repeat-y;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
 }
 
 .player-card:hover {
     transform: translateY(-10px);
-    box-shadow: var(--shadow-card), var(--glow-primary);
+    box-shadow: var(--shadow-card), var(--aura-undead), inset 0 0 30px rgba(127, 255, 127, 0.1);
     border-color: var(--color-primary);
+}
+
+.player-card:hover::before {
+    opacity: 1;
 }
 
 .player-image {
@@ -777,12 +853,29 @@ a:focus-visible {
     border: 1px solid rgba(229, 57, 53, 0.1);
     transition: all var(--transition-normal);
     text-align: center;
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(127, 255, 127, 0.05);
+}
+
+.achievement-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(127, 255, 127, 0.1), transparent);
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    pointer-events: none;
 }
 
 .achievement-card:hover {
     transform: translateY(-5px);
     border-color: var(--color-primary);
-    box-shadow: var(--glow-primary);
+    box-shadow: var(--glow-primary), var(--glow-undead), inset 0 0 25px rgba(127, 255, 127, 0.1);
+}
+
+.achievement-card:hover::after {
+    opacity: 1;
 }
 
 .achievement-icon {
@@ -1179,6 +1272,25 @@ a:focus-visible {
     }
 }
 
+/* Rise from grave animation */
+@keyframes riseFromGrave {
+    0% {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .fade-in {
     animation: fadeIn 0.6s ease forwards;
+}
+
+.rise-up {
+    animation: riseFromGrave 0.8s ease-out forwards;
 }
