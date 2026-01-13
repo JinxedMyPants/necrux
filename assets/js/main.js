@@ -252,15 +252,6 @@ if (!prefersReducedMotion) {
         delay: 0.24
     });
 
-    gsap.fromTo('.hero-cta .btn', { opacity: 0, y: 16 }, {
-        duration: 0.5,
-        opacity: 1,
-        y: 0,
-        stagger: 0.12,
-        ease: 'power3.out',
-        delay: 0.3
-    });
-
     gsap.fromTo('.scroll-indicator', { opacity: 0 }, {
         duration: 0.5,
         opacity: 1,
@@ -539,7 +530,6 @@ const DISCORD_INVITE = '#contact';
 // Update all Discord links
 const discordLinks = [
     document.getElementById('discordLink'),
-    document.getElementById('heroCTA'),
     document.getElementById('footerDiscord')
 ];
 
