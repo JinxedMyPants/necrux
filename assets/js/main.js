@@ -27,6 +27,7 @@ class ParticleCanvas {
 
     resize() {
         this.canvas.width = this.canvas.offsetWidth;
+setAudioToggleState(true);
         this.canvas.height = this.canvas.offsetHeight;
     }
 
@@ -209,11 +210,35 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             const targetPosition = target.offsetTop - navHeight;
             window.scrollTo({
                 top: targetPosition,
-                behavior: 'auto'
+                behavior: 'smooth'
             });
         }
     });
 });
+
+// Parallax effect for hero background and content
+if (!prefersReducedMotion) {
+    const heroBg = document.querySelector('.hero-background');
+    const heroContent = document.querySelector('.hero-content');
+    let ticking = false;
+
+    const handleParallax = () => {
+        if (!heroBg || !heroContent) return;
+        const scrollY = window.scrollY;
+        const offset = Math.min(scrollY * 0.2, 80);
+        const contentOffset = Math.min(scrollY * 0.1, 40);
+        heroBg.style.transform = `translateY(${offset}px)`;
+        heroContent.style.transform = `translateY(${contentOffset * -0.3}px)`;
+        ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(handleParallax);
+            ticking = true;
+        }
+    });
+}
 
 // ===================================
 // GSAP Animations
@@ -257,6 +282,16 @@ if (!prefersReducedMotion) {
         opacity: 1,
         ease: 'power2.out',
         delay: 0.4
+    });
+
+    // Roster filter buttons
+    gsap.fromTo('.roster-filter .filter-btn', { opacity: 0, y: 12 }, {
+        duration: 0.4,
+        opacity: 1,
+        y: 0,
+        stagger: 0.08,
+        ease: 'power2.out',
+        delay: 0.32
     });
 
     // Section fade-in animations (visible by default; quick transitions)
@@ -355,6 +390,34 @@ if (!prefersReducedMotion) {
         },
         immediateRender: false,
         duration: 0.5,
+        opacity: 1,
+        y: 0,
+        stagger: 0.08,
+        ease: 'power2.out'
+    });
+
+    // Requirements list
+    gsap.fromTo('.requirements-list li', { opacity: 0.9, x: -12 }, {
+        scrollTrigger: {
+            trigger: '.requirements-list',
+            start: 'top 85%'
+        },
+        immediateRender: false,
+        duration: 0.45,
+        opacity: 1,
+        x: 0,
+        stagger: 0.06,
+        ease: 'power2.out'
+    });
+
+    // Footer columns
+    gsap.fromTo('.footer-column', { opacity: 0.9, y: 10 }, {
+        scrollTrigger: {
+            trigger: '.footer-content',
+            start: 'top 90%'
+        },
+        immediateRender: false,
+        duration: 0.45,
         opacity: 1,
         y: 0,
         stagger: 0.08,
@@ -552,6 +615,14 @@ const openSponsorModal = () => {
     if (sponsorModal) {
         sponsorModal.classList.add('open');
         sponsorModal.setAttribute('aria-hidden', 'false');
+        if (!prefersReducedMotion) {
+            gsap.fromTo('.modal-content', { opacity: 0, scale: 0.94 }, {
+                duration: 0.3,
+                opacity: 1,
+                scale: 1,
+                ease: 'power2.out'
+            });
+        }
     }
 };
 
@@ -647,6 +718,69 @@ interactiveCards.forEach(card => {
         }
     });
 });
+
+// ===================================
+// Background Audio
+// ===================================
+const bgAudio = document.getElementById('bgAudio');
+const audioToggle = document.getElementById('audioToggle');
+let audioInitialized = false;
+setAudioToggleState(true);
+
+const setAudioToggleState = (muted) => {
+    if (!audioToggle) return;
+    audioToggle.classList.toggle('muted', muted);
+    audioToggle.setAttribute('aria-pressed', (!muted).toString());
+    const label = audioToggle.querySelector('.audio-label');
+    const icon = audioToggle.querySelector('.audio-icon');
+    if (label) label.textContent = muted ? 'Play Anthem' : 'Mute Anthem';
+    if (icon) icon.textContent = muted ? '♫' : '♪';
+};
+
+const initAudio = () => {
+    if (!bgAudio) return;
+    bgAudio.volume = 0.1;
+    bgAudio.muted = false;
+    const attemptPlay = bgAudio.play();
+    if (attemptPlay) {
+        attemptPlay.then(() => {
+            audioInitialized = true;
+            setAudioToggleState(false);
+        }).catch(() => {
+            // Autoplay likely blocked; stay muted state until user interacts
+            setAudioToggleState(true);
+        });
+    }
+};
+
+if (audioToggle && bgAudio) {
+    audioToggle.addEventListener('click', () => {
+        if (!audioInitialized) {
+            initAudio();
+            audioInitialized = true;
+        } else {
+            const willMute = !bgAudio.paused && !bgAudio.muted;
+            if (willMute) {
+                bgAudio.pause();
+                bgAudio.muted = true;
+                setAudioToggleState(true);
+            } else {
+                bgAudio.muted = false;
+                bgAudio.volume = 0.1;
+                bgAudio.play();
+                setAudioToggleState(false);
+            }
+        }
+    });
+}
+
+// Attempt to start audio on first user interaction if autoplay blocked
+document.addEventListener('click', () => {
+    if (!audioInitialized) {
+        initAudio();
+        audioInitialized = true;
+    }
+}, { once: true });
 
 // ===================================
 // Console Message

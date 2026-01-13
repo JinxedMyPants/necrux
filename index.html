@@ -59,6 +59,9 @@
 <body>
     <!-- Skip to content for accessibility -->
     <a href="#main-content" class="skip-to-content">Skip to content</a>
+
+    <!-- Fog overlay for graveyard atmosphere -->
+    <div class="fog-overlay" aria-hidden="true"></div>
     
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -490,9 +493,16 @@
                 <button class="back-to-top" id="backToTop" aria-label="Back to top">
                     <span class="arrow-up">↑</span>
                 </button>
+                <button class="audio-toggle" id="audioToggle" aria-label="Toggle background audio" aria-pressed="false">
+                    <span class="audio-icon">♫</span>
+                    <span class="audio-label">Play Anthem</span>
+                </button>
             </div>
         </div>
     </footer>
+
+    <!-- Background audio -->
+    <audio id="bgAudio" src="assets/bgm/NCX Anthem.mp3" preload="auto" loop></audio>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
