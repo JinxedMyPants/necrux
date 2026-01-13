@@ -59,7 +59,7 @@ class ParticleCanvas {
             // Draw particle
             this.ctx.beginPath();
             this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = 'rgba(0, 255, 255, 0.6)';
+            this.ctx.fillStyle = 'rgba(229, 57, 53, 0.6)';
             this.ctx.fill();
 
             // Draw connections
@@ -70,7 +70,7 @@ class ParticleCanvas {
 
                 if (distance < 120) {
                     this.ctx.beginPath();
-                    this.ctx.strokeStyle = `rgba(0, 255, 255, ${0.2 * (1 - distance / 120)})`;
+                    this.ctx.strokeStyle = `rgba(229, 57, 53, ${0.2 * (1 - distance / 120)})`;
                     this.ctx.lineWidth = 1;
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(particle2.x, particle2.y);
@@ -86,7 +86,7 @@ class ParticleCanvas {
 
                 if (distance < 150) {
                     this.ctx.beginPath();
-                    this.ctx.strokeStyle = `rgba(0, 85, 255, ${0.3 * (1 - distance / 150)})`;
+                    this.ctx.strokeStyle = `rgba(0, 200, 83, ${0.3 * (1 - distance / 150)})`;
                     this.ctx.lineWidth = 2;
                     this.ctx.moveTo(particle.x, particle.y);
                     this.ctx.lineTo(this.mouse.x, this.mouse.y);

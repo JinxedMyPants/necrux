@@ -5,11 +5,11 @@
 
 /* CSS Custom Properties */
 :root {
-    /* Colors */
-    --color-primary: #00FFFF;
-    --color-secondary: #0055FF;
-    --color-accent: #FF00FF;
-    --color-dark: #0A0A0F;
+    /* Colors (NCX: black, red, green) */
+    --color-primary: #E53935;   /* Red */
+    --color-secondary: #00C853; /* Green */
+    --color-accent: #00E676;    /* Light Green accent */
+    --color-dark: #0A0A0F;      /* Black background */
     --color-dark-gray: #1A1A24;
     --color-darker-gray: #12141f;
     --color-light-gray: #B8B8C8;
@@ -34,8 +34,8 @@
     --transition-slow: 0.5s ease;
     
     /* Effects */
-    --glow-primary: 0 0 20px rgba(0, 255, 255, 0.5);
-    --glow-secondary: 0 0 30px rgba(0, 85, 255, 0.6);
+    --glow-primary: 0 0 20px rgba(229, 57, 53, 0.5);
+    --glow-secondary: 0 0 30px rgba(0, 200, 83, 0.6);
     --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -125,13 +125,13 @@ a:focus-visible {
     backdrop-filter: blur(10px);
     z-index: 1000;
     padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(229, 57, 53, 0.1);
     transition: background var(--transition-normal);
 }
 
 .navbar.scrolled {
     background: rgba(10, 10, 15, 0.98);
-    box-shadow: 0 4px 20px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(229, 57, 53, 0.1);
 }
 
 .nav-container {
@@ -274,8 +274,8 @@ a:focus-visible {
     bottom: 0;
     background: radial-gradient(
         ellipse at center,
-        rgba(0, 255, 255, 0.15) 0%,
-        rgba(0, 85, 255, 0.1) 30%,
+        rgba(229, 57, 53, 0.2) 0%,
+        rgba(0, 200, 83, 0.12) 30%,
         rgba(10, 10, 15, 0.9) 70%,
         rgba(10, 10, 15, 1) 100%
     );
@@ -524,7 +524,7 @@ a:focus-visible {
     padding: var(--spacing-md);
     border-radius: 8px;
     text-align: center;
-    border: 1px solid rgba(0, 255, 255, 0.2);
+    border: 1px solid rgba(229, 57, 53, 0.2);
     transition: all var(--transition-normal);
 }
 
@@ -595,7 +595,7 @@ a:focus-visible {
     border-radius: 12px;
     overflow: hidden;
     transition: all var(--transition-normal);
-    border: 1px solid rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(229, 57, 53, 0.1);
 }
 
 .player-card:hover {
@@ -669,7 +669,7 @@ a:focus-visible {
     padding: 4px 10px;
     font-size: 0.75rem;
     border-radius: 4px;
-    border: 1px solid rgba(0, 255, 255, 0.2);
+    border: 1px solid rgba(229, 57, 53, 0.2);
 }
 
 /* Schedule Section */
@@ -685,7 +685,7 @@ a:focus-visible {
     background: var(--color-darker-gray);
     padding: var(--spacing-md);
     border-radius: 8px;
-    border: 1px solid rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(229, 57, 53, 0.1);
     transition: all var(--transition-normal);
     align-items: center;
 }
@@ -748,7 +748,7 @@ a:focus-visible {
 }
 
 .status-badge.upcoming {
-    background: rgba(0, 85, 255, 0.2);
+    background: rgba(0, 200, 83, 0.2);
     color: var(--color-secondary);
     border: 1px solid var(--color-secondary);
 }
@@ -774,7 +774,7 @@ a:focus-visible {
     background: var(--color-dark);
     padding: var(--spacing-md);
     border-radius: 12px;
-    border: 1px solid rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(229, 57, 53, 0.1);
     transition: all var(--transition-normal);
     text-align: center;
 }
@@ -904,7 +904,7 @@ a:focus-visible {
     padding: var(--spacing-sm);
     background: var(--color-dark);
     border-radius: 8px;
-    border: 1px solid rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(229, 57, 53, 0.1);
     transition: all var(--transition-fast);
 }
 
@@ -928,7 +928,7 @@ a:focus-visible {
     background: var(--color-dark);
     padding: var(--spacing-lg);
     border-radius: 12px;
-    border: 1px solid rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(229, 57, 53, 0.1);
 }
 
 .form-group {
@@ -951,7 +951,7 @@ a:focus-visible {
     width: 100%;
     padding: var(--spacing-sm);
     background: var(--color-darker-gray);
-    border: 1px solid rgba(0, 255, 255, 0.2);
+    border: 1px solid rgba(229, 57, 53, 0.2);
     border-radius: 4px;
     color: var(--color-white);
     font-family: var(--font-body);
@@ -964,7 +964,7 @@ a:focus-visible {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
 }
 
 .form-group textarea {
@@ -983,7 +983,7 @@ a:focus-visible {
 .footer {
     background: var(--color-dark);
     padding: var(--spacing-lg) 0 var(--spacing-md);
-    border-top: 1px solid rgba(0, 255, 255, 0.1);
+    border-top: 1px solid rgba(229, 57, 53, 0.1);
 }
 
 .footer-content {
@@ -1117,7 +1117,7 @@ a:focus-visible {
         padding: var(--spacing-md);
         transform: translateX(-100%);
         transition: transform var(--transition-normal);
-        border-top: 1px solid rgba(0, 255, 255, 0.2);
+        border-top: 1px solid rgba(229, 57, 53, 0.2);
     }
     
     .nav-menu.active {
