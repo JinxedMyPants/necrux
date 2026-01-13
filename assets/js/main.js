@@ -276,6 +276,7 @@ if (!prefersReducedMotion) {
                 start: 'top 80%',
                 toggleActions: 'play none none none'
             },
+                immediateRender: false,
             duration: 0.8,
             opacity: 0,
             y: 50,
@@ -290,6 +291,7 @@ if (!prefersReducedMotion) {
             trigger: '.about-section',
             start: 'top 70%'
         },
+            immediateRender: false,
         duration: 1,
         opacity: 0,
         x: -50,
@@ -301,6 +303,7 @@ if (!prefersReducedMotion) {
             trigger: '.about-stats',
             start: 'top 80%'
         },
+            immediateRender: false,
         duration: 0.8,
         opacity: 0,
         y: 50,
@@ -314,6 +317,7 @@ if (!prefersReducedMotion) {
             trigger: '.roster-grid',
             start: 'top 80%'
         },
+            immediateRender: false,
         duration: 0.8,
         opacity: 0,
         y: 50,
@@ -327,6 +331,7 @@ if (!prefersReducedMotion) {
             trigger: '.schedule-grid',
             start: 'top 80%'
         },
+            immediateRender: false,
         duration: 0.8,
         opacity: 0,
         x: -50,
@@ -340,6 +345,7 @@ if (!prefersReducedMotion) {
             trigger: '.achievements-grid',
             start: 'top 80%'
         },
+            immediateRender: false,
         duration: 0.8,
         opacity: 0,
         scale: 0.8,
@@ -353,6 +359,7 @@ if (!prefersReducedMotion) {
             trigger: '.sponsors-grid',
             start: 'top 80%'
         },
+            immediateRender: false,
         duration: 0.8,
         opacity: 0,
         y: 30,
@@ -366,6 +373,7 @@ if (!prefersReducedMotion) {
             trigger: '.contact-grid',
             start: 'top 80%'
         },
+            immediateRender: false,
         duration: 1,
         opacity: 0,
         x: -50,
@@ -377,6 +385,7 @@ if (!prefersReducedMotion) {
             trigger: '.contact-grid',
             start: 'top 80%'
         },
+            immediateRender: false,
         duration: 1,
         opacity: 0,
         x: 50,
