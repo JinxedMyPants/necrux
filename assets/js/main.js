@@ -26,9 +26,8 @@ class ParticleCanvas {
     }
 
     resize() {
-        this.canvas.width = this.canvas.offsetWidth;
-setAudioToggleState(true);
-        this.canvas.height = this.canvas.offsetHeight;
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
     }
 
     init() {
