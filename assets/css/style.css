@@ -730,13 +730,18 @@ main {
 
     .player-info {
         padding: var(--spacing-md);
+        text-align: center;
     }
 
     .player-name {
-        font-size: 1.5rem;
+        font-size: clamp(1.25rem, 2.6vw, 1.5rem);
         font-weight: 700;
         margin-bottom: var(--spacing-xs);
         color: var(--color-primary);
+        line-height: 1.2;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        hyphens: auto;
     }
 
     .player-specialty {
@@ -749,6 +754,7 @@ main {
         display: flex;
         gap: var(--spacing-xs);
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     .champion-tag {
