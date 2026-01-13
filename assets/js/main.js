@@ -723,8 +723,7 @@ const debounce = (func, wait) => {
 
 // Optimized resize handler
 const handleResize = debounce(() => {
-    // Add any resize-specific logic here
-    console.log('Window resized');
+    canvas.resize();
 }, 250);
 
 window.addEventListener('resize', handleResize);
@@ -767,29 +766,37 @@ const setAudioToggleState = (muted) => {
 
 if (audioToggle) setAudioToggleState(true);
 
+const updateAudioUI = (isPlaying) => {
+    if (!audioToggle) return;
+    const label = audioToggle.querySelector('.audio-label');
+    const icon = audioToggle.querySelector('.audio-icon');
+    
+    if (isPlaying) {
+        audioToggle.classList.remove('muted');
+        audioToggle.setAttribute('aria-pressed', 'true');
+        volumeControl?.classList.add('visible');
+        if (label) label.textContent = 'Mute Anthem';
+        if (icon) icon.textContent = '♪';
+    } else {
+        audioToggle.classList.add('muted');
+        audioToggle.setAttribute('aria-pressed', 'false');
+        volumeControl?.classList.remove('visible');
+        if (label) label.textContent = 'Play Anthem';
+        if (icon) icon.textContent = '♫';
+    }
+};
+
 if (bgAudio) {
-    bgAudio.volume = 0.05; // 5% volume
+    bgAudio.volume = 0.05;
     
     if (audioToggle) {
         audioToggle.addEventListener('click', () => {
             if (bgAudio.paused) {
-                bgAudio.play().catch(() => {}); // Silent fail
-                audioToggle.classList.remove('muted');
-                audioToggle.setAttribute('aria-pressed', 'true');
-                volumeControl?.classList.add('visible');
-                const label = audioToggle.querySelector('.audio-label');
-                const icon = audioToggle.querySelector('.audio-icon');
-                if (label) label.textContent = 'Mute Anthem';
-                if (icon) icon.textContent = '♪';
+                bgAudio.play().catch(() => {});
+                updateAudioUI(true);
             } else {
                 bgAudio.pause();
-                audioToggle.classList.add('muted');
-                audioToggle.setAttribute('aria-pressed', 'false');
-                volumeControl?.classList.remove('visible');
-                const label = audioToggle.querySelector('.audio-label');
-                const icon = audioToggle.querySelector('.audio-icon');
-                if (label) label.textContent = 'Play Anthem';
-                if (icon) icon.textContent = '♫';
+                updateAudioUI(false);
             }
         });
     }
@@ -806,6 +813,8 @@ if (bgAudio) {
 // ===================================
 // Console Message
 // ===================================
-console.log('%c NECRUX GUILD ', 'background: #00FF00; color: #0A0A0F; font-size: 20px; font-weight: bold; padding: 10px;');
-console.log('%c Elite Wild Rift Esports Team ', 'color: #00FF00; font-size: 14px;');
-console.log('%c Interested in joining? Visit our Discord! ', 'color: #B8B8C8; font-size: 12px;');
+if (!window.location.hostname.includes('localhost')) {
+    console.log('%c NECRUX GUILD ', 'background: #00FF00; color: #0A0A0F; font-size: 20px; font-weight: bold; padding: 10px;');
+    console.log('%c Elite Wild Rift Esports Team ', 'color: #00FF00; font-size: 14px;');
+    console.log('%c Join our Discord at necrux.org ', 'color: #B8B8C8; font-size: 12px;');
+}
