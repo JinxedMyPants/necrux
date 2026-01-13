@@ -766,24 +766,26 @@ if (audioToggle) setAudioToggleState(true);
 
 const initAudio = () => {
     if (!bgAudio || audioInitialized) return;
+    audioInitialized = true;
     
-    // Set volume FIRST while still muted
+    // Audio should already be playing muted via autoplay attribute
+    // Just unmute it and set volume
     bgAudio.volume = 0.05;
-    // Small delay to ensure volume is set
-    setTimeout(() => {
-        bgAudio.muted = false;
-        const attemptPlay = bgAudio.play();
-        if (attemptPlay) {
-            attemptPlay.then(() => {
-                audioInitialized = true;
-                setAudioToggleState(false);
-                console.log('Anthem playing at', bgAudio.volume * 100 + '% volume');
-            }).catch((err) => {
-                console.log('Autoplay blocked:', err);
-                setAudioToggleState(true);
-            });
-        }
-    }, 50);
+    bgAudio.muted = false;
+    
+    // Verify it's playing
+    if (bgAudio.paused) {
+        bgAudio.play().then(() => {
+            setAudioToggleState(false);
+            console.log('Anthem playing at', bgAudio.volume * 100 + '% volume');
+        }).catch((err) => {
+            console.log('Play failed:', err);
+            setAudioToggleState(true);
+        });
+    } else {
+        setAudioToggleState(false);
+        console.log('Anthem unmuted at', bgAudio.volume * 100 + '% volume');
+    }
 };
 
 if (audioToggle && bgAudio) {
@@ -808,16 +810,24 @@ if (audioToggle && bgAudio) {
     });
 }
 
-// Auto-play IMMEDIATELY on page ready
+// Start audio immediately when this script runs
+if (bgAudio) {
+    // Give the audio element a moment to register the autoplay
+    setTimeout(() => {
+        initAudio();
+    }, 100);
+}
+
+// Auto-play IMMEDIATELY on page ready (backup)
 if (bgAudio) {
     // Try as soon as DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
-            initAudio();
+            if (!audioInitialized) initAudio();
         });
     } else {
         // DOM already loaded
-        initAudio();
+        if (!audioInitialized) initAudio();
     }
 }
 
