@@ -5,11 +5,11 @@
 
 /* CSS Custom Properties */
 :root {
-    /* Colors (NCX: black, red, green) */
-    --color-primary: #E53935;   /* Red */
-    --color-secondary: #00C853; /* Green */
-    --color-accent: #00E676;    /* Light Green accent */
-    --color-undead: #7FFF7F;    /* Sickly Undead Green */
+    /* Colors (NCX: black, green, yellow) */
+    --color-primary: #00FF00;   /* Neon Green */
+    --color-secondary: #FFFF00; /* Neon Yellow */
+    --color-accent: #00FF7F;    /* Mint Green */
+    --color-undead: #00FF00;    /* Neon Green (undead/necromantic) */
     --color-dark: #0A0A0F;      /* Black background */
     --color-dark-gray: #1A1A24;
     --color-darker-gray: #12141f;
@@ -35,11 +35,11 @@
     --transition-slow: 0.5s ease;
     
     /* Effects */
-    --glow-primary: 0 0 20px rgba(229, 57, 53, 0.5);
-    --glow-secondary: 0 0 30px rgba(0, 200, 83, 0.6);
-    --glow-undead: 0 0 25px rgba(127, 255, 127, 0.6);
+    --glow-primary: 0 0 20px rgba(0, 255, 0, 0.6);
+    --glow-secondary: 0 0 30px rgba(255, 255, 0, 0.5);
+    --glow-undead: 0 0 25px rgba(0, 255, 0, 0.7);
     --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
-    --aura-undead: 0 0 40px rgba(127, 255, 127, 0.4), 0 0 20px rgba(229, 57, 53, 0.3);
+    --aura-undead: 0 0 40px rgba(0, 255, 0, 0.5), 0 0 20px rgba(255, 255, 0, 0.3);
 }
 
 /* Reset & Base Styles */
@@ -526,6 +526,10 @@ a:focus-visible {
     background-clip: text;
     letter-spacing: 4px;
     text-transform: uppercase;
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 3px solid var(--color-primary);
+    display: inline-block;
+    width: 100%;
 }
 
 .section-subtitle {
