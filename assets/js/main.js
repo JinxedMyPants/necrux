@@ -746,15 +746,10 @@ interactiveCards.forEach(card => {
 });
 
 // ===================================
-// Background Audio (Web Audio API)
+// Background Audio
 // ===================================
+const bgAudio = document.getElementById('bgAudio');
 const audioToggle = document.getElementById('audioToggle');
-let audioContext;
-let audioSource;
-let gainNode;
-let audioBuffer;
-let isPlaying = false;
-let contextInitiated = false;
 
 const setAudioToggleState = (muted) => {
     if (!audioToggle) return;
@@ -768,93 +763,51 @@ const setAudioToggleState = (muted) => {
 
 if (audioToggle) setAudioToggleState(true);
 
-const initWebAudio = async () => {
-    try {
-        // Create audio context on first user interaction
-        if (!contextInitiated) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            contextInitiated = true;
-        }
-
-        // Resume context if suspended
-        if (audioContext.state === 'suspended') {
-            await audioContext.resume();
-        }
-
-        // Create gain node for volume control (0.05 = 5%)
-        if (!gainNode) {
-            gainNode = audioContext.createGain();
-            gainNode.gain.value = 0.05;
-            gainNode.connect(audioContext.destination);
-        }
-
-        // Fetch and decode audio if not already loaded
-        if (!audioBuffer) {
-            const response = await fetch('assets/bgm/NCX Anthem.mp3');
-            const arrayBuffer = await response.arrayBuffer();
-            audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        }
-
-        // Stop any existing source
-        if (audioSource) {
-            try {
-                audioSource.stop();
-            } catch (e) {}
-        }
-
-        // Create new source and connect to gain node
-        audioSource = audioContext.createBufferSource();
-        audioSource.buffer = audioBuffer;
-        audioSource.loop = true;
-        audioSource.connect(gainNode);
-
-        // Play immediately
-        audioSource.start(0);
-        isPlaying = true;
-        setAudioToggleState(false);
-        console.log('Anthem playing at 5% volume via Web Audio API');
-    } catch (err) {
-        console.error('Audio init failed:', err);
-        setAudioToggleState(true);
-    }
-};
-
-const stopWebAudio = () => {
-    if (audioSource && isPlaying) {
-        try {
-            audioSource.stop();
-        } catch (e) {}
-        isPlaying = false;
-        setAudioToggleState(true);
-        console.log('Anthem stopped');
-    }
-};
-
-const toggleWebAudio = () => {
-    if (isPlaying) {
-        stopWebAudio();
+if (bgAudio) {
+    // Set volume to 5% and unmute when audio is ready
+    bgAudio.volume = 0.05;
+    
+    // Unmute and start playing as soon as the audio can play
+    const autoPlay = () => {
+        bgAudio.muted = false;
+        bgAudio.play().then(() => {
+            setAudioToggleState(false);
+            console.log('Anthem playing at 5% volume');
+        }).catch((err) => {
+            console.log('Autoplay error:', err);
+        });
+        bgAudio.removeEventListener('canplay', autoPlay);
+    };
+    
+    bgAudio.addEventListener('canplay', autoPlay);
+    
+    // Fallback: unmute immediately on document ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            bgAudio.muted = false;
+            bgAudio.play();
+        });
     } else {
-        initWebAudio();
+        bgAudio.muted = false;
+        bgAudio.play();
     }
-};
-
-// Attach toggle handler
-if (audioToggle) {
-    audioToggle.addEventListener('click', toggleWebAudio);
+    
+    // Toggle handler
+    if (audioToggle) {
+        audioToggle.addEventListener('click', () => {
+            if (bgAudio.paused) {
+                bgAudio.muted = false;
+                bgAudio.volume = 0.05;
+                bgAudio.play().then(() => {
+                    setAudioToggleState(false);
+                });
+            } else {
+                bgAudio.pause();
+                setAudioToggleState(true);
+            }
+        });
+    }
 }
-
-// Start on ANY user interaction (required by browsers)
-const startAudioOnGesture = () => {
-    initWebAudio();
-    // Remove listener after first gesture
-    ['click', 'touchstart', 'keydown'].forEach(event => {
-        document.removeEventListener(event, startAudioOnGesture);
-    });
-};
-
-['click', 'touchstart', 'keydown'].forEach(event => {
-    document.addEventListener(event, startAudioOnGesture);
-});
 
 // ===================================
 // Console Message
