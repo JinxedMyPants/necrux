@@ -10,14 +10,14 @@ gsap.registerPlugin(ScrollTrigger);
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ===================================
-// Particle Canvas Background
+// Necromantic Souls Canvas Background
 // ===================================
-class ParticleCanvas {
+class NecromanticCanvas {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
-        this.particles = [];
-        this.particleCount = window.innerWidth < 768 ? 30 : 50;
+        this.souls = [];
+        this.soulCount = window.innerWidth < 768 ? 20 : 35;
         this.mouse = { x: null, y: null };
         this.resize();
         this.init();
@@ -31,105 +31,133 @@ class ParticleCanvas {
     }
 
     init() {
-        this.particles = [];
-        for (let i = 0; i < this.particleCount; i++) {
-            this.particles.push({
+        this.souls = [];
+        for (let i = 0; i < this.soulCount; i++) {
+            this.souls.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                radius: Math.random() * 2 + 1,
-                trail: [], // For wisp tail effect
-                trailLength: 10,
-                age: 0, // For flickering effect
-                lifespan: Math.random() * 100 + 50
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3 - 0.2, // Drift upward
+                size: Math.random() * 15 + 8,
+                opacity: Math.random() * 0.5 + 0.3,
+                hue: Math.random() > 0.7 ? 60 : 120, // Yellow or green
+                phase: Math.random() * Math.PI * 2,
+                phaseSpeed: Math.random() * 0.02 + 0.01,
+                rotation: Math.random() * Math.PI * 2,
+                rotationSpeed: (Math.random() - 0.5) * 0.02,
+                trail: [],
+                maxTrail: Math.floor(Math.random() * 8 + 5),
+                pulseSpeed: Math.random() * 0.05 + 0.02,
+                type: Math.random() > 0.85 ? 'skull' : 'wisp' // 15% skulls
             });
         }
     }
 
-    drawParticles() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // Draw particles
-        this.particles.forEach((particle, i) => {
-            // Update position
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-            particle.age++;
+    drawSoul(soul) {
+        // Update position with floating drift
+        soul.x += soul.vx + Math.sin(soul.phase) * 0.3;
+        soul.y += soul.vy + Math.cos(soul.phase * 1.3) * 0.2;
+        soul.phase += soul.phaseSpeed;
+        soul.rotation += soul.rotationSpeed;
 
-            // Bounce off edges
-            if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
-            if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
+        // Wrap around edges
+        if (soul.x < -50) soul.x = this.canvas.width + 50;
+        if (soul.x > this.canvas.width + 50) soul.x = -50;
+        if (soul.y < -50) soul.y = this.canvas.height + 50;
+        if (soul.y > this.canvas.height + 50) soul.y = -50;
 
-            // Add to trail for wisp effect
-            particle.trail.push({ x: particle.x, y: particle.y });
-            if (particle.trail.length > particle.trailLength) {
-                particle.trail.shift();
-            }
+        // Add to trail
+        soul.trail.push({ x: soul.x, y: soul.y, opacity: soul.opacity });
+        if (soul.trail.length > soul.maxTrail) soul.trail.shift();
 
-            // Draw wisp tail (translucent trail)
-            for (let j = 0; j < particle.trail.length; j++) {
-                const opacity = (j / particle.trail.length) * 0.3;
-                    this.ctx.fillStyle = `rgba(0, 255, 0, ${opacity})`;
-                this.ctx.beginPath();
-                const tailRadius = (particle.radius * (j / particle.trail.length)) * 0.7;
-                this.ctx.arc(particle.trail[j].x, particle.trail[j].y, Math.max(0.5, tailRadius), 0, Math.PI * 2);
-                this.ctx.fill();
-            }
+        // Pulse opacity
+        const pulse = Math.sin(Date.now() * soul.pulseSpeed * 0.001) * 0.15 + soul.opacity;
 
-            // Flickering glow effect
-            const flicker = Math.sin(particle.age * 0.1) * 0.3 + 0.7;
+        // Draw ethereal trail
+        for (let i = 0; i < soul.trail.length; i++) {
+            const t = soul.trail[i];
+            const trailOpacity = (i / soul.trail.length) * pulse * 0.4;
+            const trailSize = soul.size * (i / soul.trail.length) * 0.6;
             
-            // Draw particle with undead color mix
+            this.ctx.save();
+            this.ctx.globalAlpha = trailOpacity;
+            const gradient = this.ctx.createRadialGradient(t.x, t.y, 0, t.x, t.y, trailSize);
+            gradient.addColorStop(0, `hsla(${soul.hue}, 100%, 60%, ${trailOpacity})`);
+            gradient.addColorStop(1, 'transparent');
+            this.ctx.fillStyle = gradient;
             this.ctx.beginPath();
-            this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-                this.ctx.fillStyle = `rgba(0, 255, 0, ${0.6 * flicker})`;
+            this.ctx.arc(t.x, t.y, trailSize, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.restore();
+        }
+
+        this.ctx.save();
+        this.ctx.translate(soul.x, soul.y);
+        this.ctx.rotate(soul.rotation);
+        this.ctx.globalAlpha = pulse;
+
+        if (soul.type === 'skull') {
+            // Draw skull shape
+            this.ctx.fillStyle = `hsla(${soul.hue}, 100%, 70%, ${pulse})`;
+            this.ctx.beginPath();
+            this.ctx.ellipse(0, 0, soul.size * 0.6, soul.size * 0.7, 0, 0, Math.PI * 2);
             this.ctx.fill();
             
-            // Add undead glow halo
+            // Eye sockets
+            this.ctx.fillStyle = `rgba(0, 0, 0, ${pulse * 0.8})`;
             this.ctx.beginPath();
-            this.ctx.arc(particle.x, particle.y, particle.radius + 2, 0, Math.PI * 2);
-                this.ctx.strokeStyle = `rgba(0, 255, 0, ${0.4 * flicker})`;
-            this.ctx.lineWidth = 1.5;
-            this.ctx.stroke();
+            this.ctx.arc(-soul.size * 0.25, -soul.size * 0.15, soul.size * 0.15, 0, Math.PI * 2);
+            this.ctx.arc(soul.size * 0.25, -soul.size * 0.15, soul.size * 0.15, 0, Math.PI * 2);
+            this.ctx.fill();
+            
+            // Glow
+            this.ctx.shadowBlur = 20;
+            this.ctx.shadowColor = `hsla(${soul.hue}, 100%, 60%, ${pulse})`;
+        } else {
+            // Draw wisp
+            const gradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, soul.size);
+            gradient.addColorStop(0, `hsla(${soul.hue}, 100%, 70%, ${pulse * 0.9})`);
+            gradient.addColorStop(0.4, `hsla(${soul.hue}, 100%, 60%, ${pulse * 0.6})`);
+            gradient.addColorStop(1, 'transparent');
+            this.ctx.fillStyle = gradient;
+            this.ctx.beginPath();
+            this.ctx.arc(0, 0, soul.size, 0, Math.PI * 2);
+            this.ctx.fill();
 
-            // Draw connections with mixed red/green
-            this.particles.slice(i + 1).forEach(particle2 => {
-                const dx = particle.x - particle2.x;
-                const dy = particle.y - particle2.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+            // Inner bright core
+            const coreGradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, soul.size * 0.4);
+            coreGradient.addColorStop(0, `hsla(${soul.hue}, 100%, 90%, ${pulse})`);
+            coreGradient.addColorStop(1, 'transparent');
+            this.ctx.fillStyle = coreGradient;
+            this.ctx.beginPath();
+            this.ctx.arc(0, 0, soul.size * 0.4, 0, Math.PI * 2);
+            this.ctx.fill();
 
-                if (distance < 120) {
-                    const alpha = 0.2 * (1 - distance / 120);
-                    this.ctx.beginPath();
-                        this.ctx.strokeStyle = `rgba(0, 255, 0, ${alpha * 0.6})`;
-                    this.ctx.lineWidth = 1;
-                    this.ctx.moveTo(particle.x, particle.y);
-                    this.ctx.lineTo(particle2.x, particle2.y);
-                    this.ctx.stroke();
-                }
-            });
+            this.ctx.shadowBlur = 25;
+            this.ctx.shadowColor = `hsla(${soul.hue}, 100%, 60%, ${pulse * 0.8})`;
+        }
 
-            // Mouse interaction - souls drawn to cursor
-            if (this.mouse.x !== null && this.mouse.y !== null) {
-                const dx = particle.x - this.mouse.x;
-                const dy = particle.y - this.mouse.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+        this.ctx.restore();
 
-                if (distance < 150) {
-                    this.ctx.beginPath();
-                        this.ctx.strokeStyle = `rgba(0, 255, 0, ${0.4 * (1 - distance / 150)})`;
-                    this.ctx.lineWidth = 2;
-                    this.ctx.moveTo(particle.x, particle.y);
-                    this.ctx.lineTo(this.mouse.x, this.mouse.y);
-                    this.ctx.stroke();
-                }
+        // Mouse interaction - souls flee
+        if (this.mouse.x !== null && this.mouse.y !== null) {
+            const dx = soul.x - this.mouse.x;
+            const dy = soul.y - this.mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 150) {
+                const force = (150 - distance) / 150;
+                soul.x += (dx / distance) * force * 3;
+                soul.y += (dy / distance) * force * 3;
             }
-        });
+        }
     }
 
     animate() {
-        this.drawParticles();
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        this.souls.forEach(soul => this.drawSoul(soul));
+        
         requestAnimationFrame(() => this.animate());
     }
 
@@ -140,9 +168,8 @@ class ParticleCanvas {
         });
 
         this.canvas.addEventListener('mousemove', (e) => {
-            const rect = this.canvas.getBoundingClientRect();
-            this.mouse.x = e.clientX - rect.left;
-            this.mouse.y = e.clientY - rect.top;
+            this.mouse.x = e.clientX;
+            this.mouse.y = e.clientY;
         });
 
         this.canvas.addEventListener('mouseleave', () => {
@@ -153,12 +180,12 @@ class ParticleCanvas {
 }
 
 // ===================================
-// Initialize Particle Canvas
+// Initialize Necromantic Canvas
 // ===================================
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('particleCanvas');
     if (canvas && !prefersReducedMotion) {
-        new ParticleCanvas(canvas);
+        new NecromanticCanvas(canvas);
     }
 });
 
