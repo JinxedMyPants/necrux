@@ -532,8 +532,9 @@ backToTopButton.addEventListener('click', () => {
 // ===================================
 // Discord Link Management
 // ===================================
-// Update these with your actual Discord invite link
-const DISCORD_INVITE = 'https://discord.gg/your-invite-code';
+// Update with your actual Discord invite link
+// Placeholder anchors to Contact so the CTA always does something if no invite is set
+const DISCORD_INVITE = '#contact';
 
 // Update all Discord links
 const discordLinks = [
