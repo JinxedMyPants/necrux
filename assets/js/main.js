@@ -764,46 +764,45 @@ const setAudioToggleState = (muted) => {
 if (audioToggle) setAudioToggleState(true);
 
 if (bgAudio) {
-    // Set volume to 5% and unmute when audio is ready
+    // Set volume to 5%
     bgAudio.volume = 0.05;
     
-    // Unmute and start playing as soon as the audio can play
-    const autoPlay = () => {
+    // Unmute as soon as audio data is ready (autoplay attribute handles playback)
+    const unmute = () => {
         bgAudio.muted = false;
-        bgAudio.play().then(() => {
-            setAudioToggleState(false);
-            console.log('Anthem playing at 5% volume');
-        }).catch((err) => {
-            console.log('Autoplay error:', err);
-        });
-        bgAudio.removeEventListener('canplay', autoPlay);
+        setAudioToggleState(false);
+        console.log('Anthem unmuted and playing at 5% volume');
+        bgAudio.removeEventListener('canplay', unmute);
     };
     
-    bgAudio.addEventListener('canplay', autoPlay);
+    bgAudio.addEventListener('canplay', unmute);
     
-    // Fallback: unmute immediately on document ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            bgAudio.muted = false;
-            bgAudio.play();
-        });
-    } else {
+    // Fallback: unmute on document ready
+    const doUnmute = () => {
+        if (!bgAudio.muted) return; // Already unmuted
         bgAudio.muted = false;
-        bgAudio.play();
+        setAudioToggleState(false);
+        console.log('Anthem unmuted (fallback) at 5% volume');
+    };
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', doUnmute);
+    } else {
+        doUnmute();
     }
     
     // Toggle handler
     if (audioToggle) {
         audioToggle.addEventListener('click', () => {
-            if (bgAudio.paused) {
+            if (bgAudio.muted) {
                 bgAudio.muted = false;
                 bgAudio.volume = 0.05;
-                bgAudio.play().then(() => {
-                    setAudioToggleState(false);
-                });
+                setAudioToggleState(false);
+                console.log('Anthem unmuted');
             } else {
-                bgAudio.pause();
+                bgAudio.muted = true;
                 setAudioToggleState(true);
+                console.log('Anthem muted');
             }
         });
     }
