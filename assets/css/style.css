@@ -131,13 +131,13 @@ a:focus-visible {
     backdrop-filter: blur(10px);
     z-index: 1000;
     padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid rgba(229, 57, 53, 0.1);
+    border-bottom: 1px solid rgba(0, 255, 0, 0.2);
     transition: background var(--transition-normal);
 }
 
 .navbar.scrolled {
     background: rgba(10, 10, 15, 0.98);
-    box-shadow: 0 4px 20px rgba(229, 57, 53, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.15);
 }
 
 .nav-container {
@@ -538,7 +538,7 @@ a:focus-visible {
 .section-subtitle {
     text-align: center;
     font-size: 1.25rem;
-    color: var(--color-light-gray);
+    color: #dfe4f0;
     margin-bottom: var(--spacing-lg);
 }
 
@@ -653,38 +653,35 @@ a:focus-visible {
     border-radius: 12px;
     overflow: hidden;
     transition: all var(--transition-normal);
-    border: 2px solid rgba(229, 57, 53, 0.2);
+    border: 2px solid rgba(0, 255, 0, 0.18);
     position: relative;
-    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.05);
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.08);
 }
 
-/* Gravestone crack effect */
+/* Gravestone crack effect (visible, neon) */
 .player-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        linear-gradient(135deg, transparent 48%, rgba(229, 57, 53, 0.1) 49%, rgba(229, 57, 53, 0.1) 51%, transparent 52%),
-        linear-gradient(-135deg, transparent 48%, rgba(0, 255, 0, 0.08) 49%, rgba(0, 255, 0, 0.08) 51%, transparent 52%);
-    background-size: 100% 2px, 100% 2px;
-    background-position: 0 2px, 0 8px;
+    inset: 0;
+    background:
+        linear-gradient(135deg, transparent 47%, rgba(0, 255, 0, 0.2) 49%, rgba(0, 255, 0, 0.2) 51%, transparent 53%),
+        linear-gradient(-135deg, transparent 47%, rgba(255, 255, 0, 0.14) 49%, rgba(255, 255, 0, 0.14) 51%, transparent 53%);
+    background-size: 100% 3px, 100% 3px;
+    background-position: 0 4px, 0 12px;
     background-repeat: repeat-y;
     pointer-events: none;
-    opacity: 0;
+    opacity: 0.25;
     transition: opacity var(--transition-normal);
 }
 
 .player-card:hover {
     transform: translateY(-10px);
-    box-shadow: var(--shadow-card), var(--aura-undead), inset 0 0 30px rgba(0, 255, 0, 0.1);
+    box-shadow: var(--shadow-card), var(--aura-undead), inset 0 0 30px rgba(0, 255, 0, 0.12);
     border-color: var(--color-primary);
 }
 
 .player-card:hover::before {
-    opacity: 1;
+    opacity: 0.6;
 }
 
 .player-image {

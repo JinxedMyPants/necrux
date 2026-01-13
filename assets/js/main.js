@@ -209,7 +209,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             const targetPosition = target.offsetTop - navHeight;
             window.scrollTo({
                 top: targetPosition,
-                behavior: 'smooth'
+                behavior: 'auto'
             });
         }
     });
@@ -219,177 +219,180 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // GSAP Animations
 // ===================================
 if (!prefersReducedMotion) {
-    // Hero animations
-    gsap.from('.hero-logo', {
-        duration: 1,
-        opacity: 0,
-        scale: 0.8,
-        ease: 'back.out(1.7)',
-        delay: 0.2
+    // Hero animations (faster, immediate feel)
+    gsap.fromTo('.hero-logo', { opacity: 0, scale: 0.9 }, {
+        duration: 0.6,
+        opacity: 1,
+        scale: 1,
+        ease: 'back.out(1.4)',
+        delay: 0.05
     });
 
-    gsap.from('.hero-title', {
-        duration: 1,
-        opacity: 0,
-        y: 50,
+    gsap.fromTo('.hero-title', { opacity: 0, y: 24 }, {
+        duration: 0.6,
+        opacity: 1,
+        y: 0,
         ease: 'power3.out',
-        delay: 0.5
+        delay: 0.12
     });
 
-    gsap.from('.hero-subtitle', {
-        duration: 1,
-        opacity: 0,
-        y: 30,
+    gsap.fromTo('.hero-subtitle', { opacity: 0, y: 18 }, {
+        duration: 0.6,
+        opacity: 1,
+        y: 0,
         ease: 'power3.out',
-        delay: 0.7
+        delay: 0.18
     });
 
-    gsap.from('.hero-tagline', {
-        duration: 1,
-        opacity: 0,
-        y: 30,
+    gsap.fromTo('.hero-tagline', { opacity: 0, y: 18 }, {
+        duration: 0.6,
+        opacity: 1,
+        y: 0,
         ease: 'power3.out',
-        delay: 0.9
+        delay: 0.24
     });
 
-    gsap.from('.hero-cta .btn', {
-        duration: 0.8,
-        opacity: 0,
-        y: 30,
-        stagger: 0.2,
+    gsap.fromTo('.hero-cta .btn', { opacity: 0, y: 16 }, {
+        duration: 0.5,
+        opacity: 1,
+        y: 0,
+        stagger: 0.12,
         ease: 'power3.out',
-        delay: 1.1
+        delay: 0.3
     });
 
-    gsap.from('.scroll-indicator', {
-        duration: 1,
-        opacity: 0,
+    gsap.fromTo('.scroll-indicator', { opacity: 0 }, {
+        duration: 0.5,
+        opacity: 1,
         ease: 'power2.out',
-        delay: 1.5
+        delay: 0.4
     });
 
-    // Section fade-in animations
+    // Section fade-in animations (visible by default; quick transitions)
     gsap.utils.toArray('.section').forEach((section) => {
-        gsap.from(section.querySelectorAll('.section-title, .section-subtitle'), {
-            scrollTrigger: {
-                trigger: section,
-                start: 'top 80%',
-                toggleActions: 'play none none none'
-            },
+        gsap.fromTo(section.querySelectorAll('.section-title, .section-subtitle'),
+                { opacity: 0.95, y: 12 },
+            {
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                },
                 immediateRender: false,
-            duration: 0.8,
-            opacity: 0,
-            y: 50,
-            stagger: 0.2,
-            ease: 'power3.out'
-        });
+                duration: 0.4,
+                opacity: 1,
+                y: 0,
+                stagger: 0.1,
+                ease: 'power2.out'
+            }
+        );
     });
 
     // About section animations
-    gsap.from('.about-content', {
+    gsap.fromTo('.about-content', { opacity: 0.95, x: -14 }, {
         scrollTrigger: {
             trigger: '.about-section',
-            start: 'top 70%'
-        },
-            immediateRender: false,
-        duration: 1,
-        opacity: 0,
-        x: -50,
-        ease: 'power3.out'
-    });
-
-    gsap.from('.stat-card', {
-        scrollTrigger: {
-            trigger: '.about-stats',
             start: 'top 80%'
         },
-            immediateRender: false,
-        duration: 0.8,
-        opacity: 0,
-        y: 50,
-        stagger: 0.15,
-        ease: 'back.out(1.7)'
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        x: 0,
+        ease: 'power2.out'
+    });
+
+    gsap.fromTo('.stat-card', { opacity: 0.95, y: 14 }, {
+        scrollTrigger: {
+            trigger: '.about-stats',
+            start: 'top 85%'
+        },
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        y: 0,
+        stagger: 0.1,
+        ease: 'back.out(1.4)'
     });
 
     // Roster cards animation
-    gsap.from('.player-card', {
+    gsap.fromTo('.player-card', { opacity: 0.95, y: 14 }, {
         scrollTrigger: {
             trigger: '.roster-grid',
-            start: 'top 80%'
+            start: 'top 85%'
         },
-            immediateRender: false,
-        duration: 0.8,
-        opacity: 0,
-        y: 50,
-        stagger: 0.1,
-        ease: 'power3.out'
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        y: 0,
+        stagger: 0.08,
+        ease: 'power2.out'
     });
 
     // Match cards animation
-    gsap.from('.match-card', {
+    gsap.fromTo('.match-card', { opacity: 0.95, x: -16 }, {
         scrollTrigger: {
             trigger: '.schedule-grid',
-            start: 'top 80%'
+            start: 'top 85%'
         },
-            immediateRender: false,
-        duration: 0.8,
-        opacity: 0,
-        x: -50,
-        stagger: 0.15,
-        ease: 'power3.out'
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        x: 0,
+        stagger: 0.1,
+        ease: 'power2.out'
     });
 
     // Achievement cards animation
-    gsap.from('.achievement-card', {
+    gsap.fromTo('.achievement-card', { opacity: 0.95, scale: 0.96 }, {
         scrollTrigger: {
             trigger: '.achievements-grid',
-            start: 'top 80%'
+            start: 'top 85%'
         },
-            immediateRender: false,
-        duration: 0.8,
-        opacity: 0,
-        scale: 0.8,
-        stagger: 0.1,
-        ease: 'back.out(1.7)'
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        scale: 1,
+        stagger: 0.08,
+        ease: 'back.out(1.4)'
     });
 
     // Sponsor cards animation
-    gsap.from('.sponsor-card', {
+    gsap.fromTo('.sponsor-card', { opacity: 0.95, y: 12 }, {
         scrollTrigger: {
             trigger: '.sponsors-grid',
-            start: 'top 80%'
+            start: 'top 85%'
         },
-            immediateRender: false,
-        duration: 0.8,
-        opacity: 0,
-        y: 30,
-        stagger: 0.1,
-        ease: 'power3.out'
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        y: 0,
+        stagger: 0.08,
+        ease: 'power2.out'
     });
 
     // Contact section animation
-    gsap.from('.contact-info', {
+    gsap.fromTo('.contact-info', { opacity: 0.95, x: -14 }, {
         scrollTrigger: {
             trigger: '.contact-grid',
-            start: 'top 80%'
+            start: 'top 85%'
         },
-            immediateRender: false,
-        duration: 1,
-        opacity: 0,
-        x: -50,
-        ease: 'power3.out'
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        x: 0,
+        ease: 'power2.out'
     });
 
-    gsap.from('.contact-form-container', {
+    gsap.fromTo('.contact-form-container', { opacity: 0.95, x: 14 }, {
         scrollTrigger: {
             trigger: '.contact-grid',
-            start: 'top 80%'
+            start: 'top 85%'
         },
-            immediateRender: false,
-        duration: 1,
-        opacity: 0,
-        x: 50,
-        ease: 'power3.out'
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        x: 0,
+        ease: 'power2.out'
     });
 }
 
