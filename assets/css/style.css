@@ -10,10 +10,10 @@
     --color-secondary: #FFFF00; /* Neon Yellow */
     --color-accent: #00FF7F;    /* Mint Green */
     --color-undead: #00FF00;    /* Neon Green (undead/necromantic) */
-    --color-dark: #0A0A0F;      /* Black background */
-    --color-dark-gray: #1A1A24;
-    --color-darker-gray: #12141f;
-    --color-light-gray: #B8B8C8;
+    --color-dark: #050507;      /* Darker black background */
+    --color-dark-gray: #0f1118;
+    --color-darker-gray: #0a0d13;
+    --color-light-gray: #d0d5e8;
     --color-white: #FFFFFF;
     --color-success: #00FF88;
     --color-warning: #FFB800;
@@ -462,17 +462,11 @@ a:focus-visible {
 }
 
 .btn-glow {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 0.5s;
+    display: none;
 }
 
 .btn:hover .btn-glow {
-    left: 100%;
+    display: none;
 }
 
 /* Scroll Indicator */
@@ -538,7 +532,7 @@ a:focus-visible {
 .section-subtitle {
     text-align: center;
     font-size: 1.25rem;
-    color: #dfe4f0;
+    color: #c5cce0;
     margin-bottom: var(--spacing-lg);
 }
 
@@ -554,7 +548,7 @@ a:focus-visible {
     font-size: 1.125rem;
     line-height: 1.8;
     margin-bottom: var(--spacing-md);
-    color: var(--color-light-gray);
+    color: #d0d5e8;
 }
 
 .about-stats {
@@ -644,7 +638,7 @@ a:focus-visible {
 
 .roster-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: var(--spacing-md);
 }
 
@@ -733,7 +727,7 @@ a:focus-visible {
 
 .player-specialty {
     font-size: 0.9rem;
-    color: var(--color-light-gray);
+    color: #c5cce0;
     margin-bottom: var(--spacing-sm);
 }
 
