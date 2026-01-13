@@ -46,25 +46,27 @@
     --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
     --aura-undead: 0 0 40px rgba(0, 255, 0, 0.5), 0 0 20px rgba(255, 255, 0, 0.3);
 
-    /* Reset & Base Styles */
-    /* Main Content */
-    main {
-        display: block;
-        width: 100%;
-        min-height: 0;
-    }
+}
 
-    /* Skip to Content */
-    * {
-        margin: 0;
-        padding: 0;
-        --color-dark: #040408;      /* Deeper graveyard black */
-        --color-dark-gray: #0b0d14;
-        --color-darker-gray: #070910;
-        --color-light-gray: #d7deee;
-        scroll-behavior: smooth;
-        font-size: 16px;
-    }
+/* Reset & Base Styles */
+/* Main Content */
+main {
+    display: block;
+    width: 100%;
+    min-height: 0;
+}
+
+/* Skip to Content */
+* {
+    margin: 0;
+    padding: 0;
+    --color-dark: #040408;      /* Deeper graveyard black */
+    --color-dark-gray: #0b0d14;
+    --color-darker-gray: #070910;
+    --color-light-gray: #d7deee;
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
 
     body {
         font-family: var(--font-body);
@@ -1307,8 +1309,6 @@
     .rise-up {
         animation: riseFromGrave 0.8s ease-out forwards;
     }
-}
-
 /* Modal */
 .modal {
     position: fixed;
