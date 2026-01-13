@@ -1,8 +1,8 @@
 # 🎮 Necrux Guild Website - Project Complete
 
-**Status:** ✅ Ready for Deployment  
-**Build Date:** January 13, 2026  
-**Repository:** JinxedMyPants/necrux
+- Status: ✅ Ready for Deployment
+- Build Date: January 13, 2026
+- Repository: JinxedMyPants/necrux
 
 ---
 
@@ -10,13 +10,13 @@
 
 Your professional Wild Rift esports guild website is now complete with:
 
-✅ **Professional Design** - Cyberpunk aesthetic with cyan/blue theme  
-✅ **Smooth Animations** - GSAP-powered scroll triggers and interactions  
-✅ **Interactive Hero** - Canvas particle system with mouse tracking  
-✅ **Fully Responsive** - Mobile-first design, tested on all devices  
-✅ **Accessibility** - WCAG compliant, reduced-motion support, keyboard nav  
-✅ **SEO Optimized** - Meta tags, Open Graph, structured data, sitemap  
-✅ **Fast Performance** - Optimized code, lazy loading, minimal dependencies  
+- ✅ Professional Design — Cyberpunk aesthetic with cyan/blue theme
+- ✅ Smooth Animations — GSAP-powered scroll triggers and interactions
+- ✅ Interactive Hero — Canvas particle system with mouse tracking
+- ✅ Fully Responsive — Mobile-first design, tested on all devices
+- ✅ Accessibility — WCAG compliant, reduced-motion support, keyboard nav
+- ✅ SEO Optimized — Meta tags, Open Graph, structured data, sitemap
+- ✅ Fast Performance — Optimized code, lazy loading, minimal dependencies
 
 ## 📁 Project Structure
 
@@ -77,6 +77,7 @@ necrux/
 - [x] Responsive grid (5 columns → 1 column)
 
 ### 4. Schedule Section
+
 - [x] Match cards with date display
 - [x] Tournament information
 - [x] Status badges (Upcoming, Victory)
@@ -84,6 +85,7 @@ necrux/
 - [x] Scroll-triggered animations
 
 ### 5. Achievements Section
+
 - [x] Achievement cards with icons
 - [x] Date stamping
 - [x] Scale-up hover animation
@@ -91,12 +93,14 @@ necrux/
 - [x] Grid layout (4 → 2 → 1 columns)
 
 ### 6. Sponsors Section
+
 - [x] Logo grid with placeholders
 - [x] Hover effects (lift + glow)
 - [x] Partnership CTA section
 - [x] Responsive layout
 
 ### 7. Contact Section
+
 - [x] Requirements list with checkmarks
 - [x] Social media links (Discord, Twitter, YouTube, Instagram)
 - [x] Contact form (IGN, email, role, message)
@@ -104,6 +108,7 @@ necrux/
 - [x] Responsive two-column layout
 
 ### 8. Navigation
+
 - [x] Fixed navbar with blur effect
 - [x] Smooth scroll to sections
 - [x] Mobile hamburger menu
@@ -112,6 +117,7 @@ necrux/
 - [x] Scroll-aware background change
 
 ### 9. Footer
+
 - [x] Multi-column link layout
 - [x] Social media links
 - [x] Legal page placeholders
@@ -121,12 +127,14 @@ necrux/
 ## 🚀 Performance Metrics
 
 **Estimated Lighthouse Scores (after asset optimization):**
+
 - Performance: 90+ (with optimized images)
 - Accessibility: 95+
 - Best Practices: 95+
 - SEO: 100
 
 **Current File Sizes:**
+
 - HTML: 26KB (excellent)
 - CSS: 25KB (excellent)
 - JavaScript: 17KB (excellent)
@@ -134,6 +142,7 @@ necrux/
 - Total Base: 108KB (excellent!)
 
 **After Adding Assets (estimated):**
+
 - Logo files: ~250KB
 - Player images (5): ~300KB
 - OG image: ~200KB
@@ -150,7 +159,7 @@ necrux/
    - Generate favicons at [realfavicongenerator.net](https://realfavicongenerator.net)
 
 2. **Update Discord Link** (1 min)
-   - Edit `assets/js/main.js` line 464
+   - Edit `assets/js/main.js`
    - Replace `'https://discord.gg/your-invite-code'` with your actual link
 
 3. **Test Locally** (5 min)
@@ -160,35 +169,37 @@ necrux/
    - Test mobile responsive (DevTools)
 
 4. **Deploy to GitHub Pages** (10 min)
+
    ```bash
    git add .
    git commit -m "Launch Necrux Guild website"
    git push origin main
    ```
+
    - Enable Pages in repo Settings
    - Wait 2 minutes for build
-   - Visit: https://JinxedMyPants.github.io/necrux/
+   - Visit: <https://JinxedMyPants.github.io/necrux/>
 
 ### Short-term (Recommended)
 
-5. **Add Player Images** (30 min)
+1. **Add Player Images** (30 min)
    - Collect player photos or create graphics
    - Resize to 400x400px
    - Optimize to <60KB each
    - Place in `assets/images/players/`
 
-6. **Create OG Image** (15 min)
+2. **Create OG Image** (15 min)
    - Design 1200x630px social preview
    - Include logo + tagline
    - Save as `assets/images/og-image.jpg`
 
-7. **Update Content** (20 min)
+3. **Update Content** (20 min)
    - Modify roster with real player names/roles
    - Update match schedule with real dates
    - Customize about section stats
    - Fill in achievements with real wins
 
-8. **Configure Custom Domain** (15 min)
+4. **Configure Custom Domain** (15 min)
    - Follow DEPLOYMENT.md for Cloudflare setup
    - Add DNS records
    - Enable SSL
@@ -196,14 +207,14 @@ necrux/
 
 ### Long-term (Optional)
 
-9. **Add Advanced Features**
+1. **Add Advanced Features**
    - Integrate live match data API
    - Add news blog section
    - Implement contact form backend (Formspree/Netlify)
    - Add analytics (Google Analytics/Plausible)
    - Create team highlights video embed
 
-10. **Continuous Improvement**
+2. **Continuous Improvement**
     - Keep schedule updated
     - Add new achievements
     - Update player roster
@@ -222,6 +233,7 @@ All guides are ready in your project:
 ## ⚙️ Technical Details
 
 ### Technologies Used
+
 - HTML5 (semantic structure)
 - CSS3 (Grid, Flexbox, custom properties)
 - Vanilla JavaScript (ES6+)
@@ -230,12 +242,14 @@ All guides are ready in your project:
 - Canvas API (particle effects)
 
 ### Browser Support
+
 - Chrome/Edge: Latest ✅
 - Firefox: Latest ✅
 - Safari: Latest ✅
 - Mobile: iOS Safari, Chrome Android ✅
 
 ### Accessibility Features
+
 - Semantic HTML structure
 - ARIA labels and roles
 - Keyboard navigation
@@ -246,6 +260,7 @@ All guides are ready in your project:
 - WCAG AA color contrast
 
 ### SEO Features
+
 - Semantic HTML5 tags
 - Meta description
 - Open Graph tags
@@ -259,19 +274,22 @@ All guides are ready in your project:
 ## 🎯 Customization Points
 
 ### Easy Changes (No coding)
-- Discord link → `main.js` line 464
-- Player names/roles → `index.html` lines 180-240
-- Match schedule → `index.html` lines 250-290
-- About text → `index.html` lines 145-155
+
+- Discord link → `main.js`
+- Player names/roles → `index.html` (Roster section)
+- Match schedule → `index.html` (Schedule section)
+- About text → `index.html` (About section)
 - Stat numbers → `index.html` data-target attributes
 
 ### Medium Changes (Basic HTML/CSS)
-- Color scheme → `style.css` lines 10-20 (CSS variables)
-- Fonts → `index.html` line 34 & `style.css`
+
+- Color scheme → `style.css` (CSS variables near the top)
+- Fonts → Update Google Fonts link in `index.html` head and related styles in `style.css`
 - Section order → Rearrange `<section>` tags in `index.html`
 - Add/remove sections → Copy section structure
 
 ### Advanced Changes (JavaScript)
+
 - Animation timing → `main.js` GSAP durations
 - Particle settings → `main.js` ParticleCanvas class
 - Filter logic → `main.js` roster filter function
@@ -280,6 +298,7 @@ All guides are ready in your project:
 ## ✅ Quality Checklist
 
 ### Code Quality
+
 - [x] Valid HTML5 (semantic structure)
 - [x] Valid CSS3 (no syntax errors)
 - [x] Clean JavaScript (ES6+, no console errors)
@@ -289,6 +308,7 @@ All guides are ready in your project:
 - [x] Cross-browser compatible
 
 ### Performance
+
 - [x] Minified CSS/JS (production-ready)
 - [x] Lazy loading for images
 - [x] Optimized animations (60fps target)
@@ -297,6 +317,7 @@ All guides are ready in your project:
 - [x] CDN for libraries (GSAP)
 
 ### Security
+
 - [x] No inline scripts (CSP-friendly)
 - [x] External links use rel="noopener"
 - [x] HTTPS enforced (when deployed)
@@ -304,6 +325,7 @@ All guides are ready in your project:
 - [x] Input validation on forms
 
 ### Accessibility
+
 - [x] WCAG AA compliant colors
 - [x] Keyboard navigation works
 - [x] Screen reader friendly
@@ -312,6 +334,7 @@ All guides are ready in your project:
 - [x] Reduced motion support
 
 ### SEO
+
 - [x] Meta tags complete
 - [x] Open Graph configured
 - [x] Sitemap.xml present
@@ -319,7 +342,7 @@ All guides are ready in your project:
 - [x] Structured data added
 - [x] Semantic HTML
 
-## 🎉 You're Ready to Launch!
+## 🎉 You're Ready to Launch
 
 Your website is production-ready! Follow these final steps:
 
@@ -334,17 +357,20 @@ Your website is production-ready! Follow these final steps:
 ## 🆘 Support & Resources
 
 **Project Files:**
+
 - Main site: `index.html`
 - Styling: `assets/css/style.css`
 - Scripts: `assets/js/main.js`
 
 **Documentation:**
+
 - Quick start: `QUICKSTART.md`
 - Full guide: `README.md`
 - Assets: `ASSET_SETUP.md`
 - Deployment: `DEPLOYMENT.md`
 
 **External Resources:**
+
 - Image optimization: [tinypng.com](https://tinypng.com)
 - Favicon generator: [realfavicongenerator.net](https://realfavicongenerator.net)
 - Performance testing: [pagespeed.web.dev](https://pagespeed.web.dev)
@@ -360,7 +386,5 @@ Your website is production-ready! Follow these final steps:
 
 ---
 
-**Built with ❤️ for Necrux Guild**  
-**Ready to dominate the Wild Rift! 🎮⚔️**
-
-*Last updated: January 13, 2026*
+Built with ❤️ for Necrux Guild.
+Ready to dominate the Wild Rift! 🎮⚔️

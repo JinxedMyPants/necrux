@@ -14,9 +14,10 @@ Complete guide for deploying your Wild Rift guild website to GitHub Pages with C
 
 ### Phase 1: Local Testing
 
-**1. Test Locally**
+#### 1. Test Locally
 
 Open in browser:
+
 ```bash
 # Navigate to project directory
 cd c:\NCXDevelopment\Programming\necrux
@@ -26,10 +27,11 @@ start index.html
 
 # Option 2: Use local server (recommended)
 python -m http.server 8000
-# Visit http://localhost:8000
+# Visit <http://localhost:8000>
 ```
 
-**2. Verify Everything Works**
+#### 2. Verify Everything Works
+
 - [ ] Logo displays (or placeholder visible)
 - [ ] Navigation menu works (mobile & desktop)
 - [ ] Smooth scroll to sections
@@ -40,7 +42,7 @@ python -m http.server 8000
 
 ### Phase 2: GitHub Repository Setup
 
-**1. Initialize Git (if not already done)**
+#### 1. Initialize Git (if not already done)
 
 ```bash
 cd c:\NCXDevelopment\Programming\necrux
@@ -49,7 +51,7 @@ git add .
 git commit -m "Initial commit: Necrux Guild website"
 ```
 
-**2. Create GitHub Repository**
+#### 2. Create GitHub Repository
 
 - Go to [github.com/new](https://github.com/new)
 - Repository name: `necrux` (or your choice)
@@ -58,7 +60,7 @@ git commit -m "Initial commit: Necrux Guild website"
 - Do NOT initialize with README (you already have one)
 - Click "Create repository"
 
-**3. Push to GitHub**
+#### 3. Push to GitHub
 
 ```bash
 # Link to your GitHub repo (replace YOUR-USERNAME)
@@ -71,7 +73,7 @@ git push -u origin main
 
 ### Phase 3: Enable GitHub Pages
 
-**1. Configure GitHub Pages**
+#### 1. Configure GitHub Pages
 
 - Go to your repository on GitHub
 - Click **Settings** (top right)
@@ -81,13 +83,13 @@ git push -u origin main
   - Folder: `/ (root)`
 - Click **Save**
 
-**2. Wait for Deployment**
+#### 2. Wait for Deployment
 
 - GitHub will build your site (takes 1-3 minutes)
-- You'll see: "Your site is published at https://JinxedMyPants.github.io/necrux/"
+- You'll see: "Your site is published at <https://JinxedMyPants.github.io/necrux/>"
 - Click the URL to verify
 
-**3. Enable HTTPS (Important!)**
+#### 3. Enable HTTPS (Important!)
 
 - Still in Settings → Pages
 - Check: ✅ **Enforce HTTPS**
@@ -95,21 +97,23 @@ git push -u origin main
 
 ### Phase 4: Custom Domain (Optional)
 
-**If you have a custom domain (e.g., necrux.gg):**
+#### If you have a custom domain (e.g., necrux.gg)
 
-**1. Check CNAME File**
+#### 1. Check CNAME File
 
 Your CNAME file should contain just your domain:
-```
+
+```text
 necrux.gg
 ```
 
 OR if using www subdomain:
-```
+
+```text
 www.necrux.gg
 ```
 
-**2. Update in GitHub**
+#### 2. Update in GitHub
 
 - In repo Settings → Pages
 - Under "Custom domain"
@@ -117,18 +121,19 @@ www.necrux.gg
 - Click **Save**
 - Wait for DNS check (takes a few minutes)
 
-**3. Proceed to Cloudflare Setup** (see Phase 5)
+#### 3. Proceed to Cloudflare Setup (see Phase 5)
 
 ### Phase 5: Cloudflare Configuration
 
 **Why Cloudflare?**
+
 - Free SSL certificate
 - Global CDN (faster loading worldwide)
 - DDoS protection
 - Caching (improved performance)
 - Analytics
 
-**1. Add Domain to Cloudflare**
+#### 1. Add Domain to Cloudflare
 
 - Go to [dash.cloudflare.com](https://dash.cloudflare.com/)
 - Click **Add a Site**
@@ -136,7 +141,7 @@ www.necrux.gg
 - Select **Free Plan**
 - Click **Continue**
 
-**2. Update Nameservers**
+#### 2. Update Nameservers
 
 - Cloudflare will show you 2 nameservers (e.g., `nora.ns.cloudflare.com`)
 - Go to your domain registrar (GoDaddy, Namecheap, etc.)
@@ -145,26 +150,22 @@ www.necrux.gg
 - Save changes
 - Wait for propagation (2-24 hours, usually <1 hour)
 
-**3. Configure DNS Records**
+#### 3. Configure DNS Records
 
 In Cloudflare DNS settings, add these records:
 
 **For Apex Domain (necrux.gg):**
 
-| Type | Name | Content | Proxy Status |
-|------|------|---------|--------------|
-| A | @ | 185.199.108.153 | Proxied (🟠) |
-| A | @ | 185.199.109.153 | Proxied (🟠) |
-| A | @ | 185.199.110.153 | Proxied (🟠) |
-| A | @ | 185.199.111.153 | Proxied (🟠) |
+- A @ → 185.199.108.153 (Proxied)
+- A @ → 185.199.109.153 (Proxied)
+- A @ → 185.199.110.153 (Proxied)
+- A @ → 185.199.111.153 (Proxied)
 
 **For WWW Subdomain:**
 
-| Type | Name | Content | Proxy Status |
-|------|------|---------|--------------|
-| CNAME | www | JinxedMyPants.github.io | Proxied (🟠) |
+- CNAME www → JinxedMyPants.github.io (Proxied)
 
-**4. SSL/TLS Settings**
+#### 4. SSL/TLS Settings
 
 - Go to **SSL/TLS** tab
 - Set encryption mode: **Full** (NOT Full Strict)
@@ -174,33 +175,37 @@ In Cloudflare DNS settings, add these records:
 - Enable: ✅ **Automatic HTTPS Rewrites**
 - Optional: Enable **HSTS** (after confirming site works)
 
-**5. Caching & Performance**
+#### 5. Caching & Performance
 
 Go to **Caching** tab:
+
 - Caching Level: **Standard**
 - Browser Cache TTL: **4 hours** or **Respect Existing Headers**
 
 Go to **Speed → Optimization**:
+
 - Enable: ✅ **Auto Minify** (HTML, CSS, JavaScript)
 - Enable: ✅ **Brotli**
 
-**6. Page Rules (Optional but Recommended)**
+#### 6. Page Rules (Optional but Recommended)
 
 Go to **Rules → Page Rules**:
 
-**Rule 1: Cache Static Assets**
+##### Rule 1: Cache Static Assets
+
 - URL: `necrux.gg/assets/*`
 - Settings:
   - Cache Level: Cache Everything
   - Edge Cache TTL: 1 month
 - Save and Deploy
 
-**Rule 2: Force HTTPS on Apex**
+##### Rule 2: Force HTTPS on Apex
+
 - URL: `http://necrux.gg/*`
 - Setting: Always Use HTTPS
 - Save and Deploy
 
-**7. Purge Cache After Deployment**
+#### 7. Purge Cache After Deployment
 
 - Go to **Caching** tab
 - Click **Purge Everything**
@@ -208,22 +213,23 @@ Go to **Rules → Page Rules**:
 
 ### Phase 6: Verify Deployment
 
-**1. DNS Propagation Check**
+#### 1. DNS Propagation Check
 
 - Visit [dnschecker.org](https://dnschecker.org/)
 - Enter your domain: `necrux.gg`
 - Verify A records point to GitHub Pages IPs
 - Check multiple locations (should be green)
 
-**2. SSL Certificate Check**
+#### 2. SSL Certificate Check
 
 - Visit [ssllabs.com/ssltest](https://www.ssllabs.com/ssltest/)
 - Enter your domain
 - Should get A or A+ rating (wait 24h if pending)
 
-**3. Site Functionality Test**
+#### 3. Site Functionality Test
 
 Visit your domain and test:
+
 - [ ] HTTPS works (padlock in browser)
 - [ ] HTTP redirects to HTTPS
 - [ ] www redirects to apex (or vice versa)
@@ -233,14 +239,14 @@ Visit your domain and test:
 - [ ] Contact form visible
 - [ ] Mobile responsive
 
-**4. Performance Check**
+#### 4. Performance Check
 
 - Visit [pagespeed.web.dev](https://pagespeed.web.dev/)
 - Enter your domain
 - Test mobile and desktop
 - Aim for score >90
 
-**5. Social Media Preview**
+#### 5. Social Media Preview
 
 - Visit [metatags.io](https://metatags.io/)
 - Enter your domain
@@ -249,7 +255,7 @@ Visit your domain and test:
 
 ## 🔄 Updating Your Site
 
-**To make changes:**
+### To make changes
 
 ```bash
 # Make edits to files
@@ -290,23 +296,28 @@ git push origin main
 ### Site Not Loading
 
 **Problem:** 404 error on GitHub Pages URL
+
 - **Solution:** Check Settings → Pages, verify branch is `main` and folder is `/`
 
 **Problem:** Custom domain not working
+
 - **Solution:** Verify CNAME file has correct domain, check DNS propagation
 
 ### SSL Certificate Issues
 
 **Problem:** "Not Secure" warning
+
 - **Solution:** Wait 24h for GitHub SSL provisioning, ensure "Enforce HTTPS" is checked
 
 **Problem:** Mixed content errors
+
 - **Solution:** Ensure all resources (images, scripts) use HTTPS, not HTTP
 
 ### Performance Issues
 
 **Problem:** Slow loading
-- **Solution:** 
+
+- **Solution:**
   - Optimize images (see ASSET_SETUP.md)
   - Enable Cloudflare caching
   - Purge Cloudflare cache
@@ -315,6 +326,7 @@ git push origin main
 ### DNS Not Propagating
 
 **Problem:** Domain still shows old content or errors
+
 - **Solution:**
   - Clear browser cache (Ctrl+Shift+R)
   - Wait longer (up to 24-48 hours)
@@ -324,7 +336,8 @@ git push origin main
 ### Cloudflare Errors
 
 **Problem:** Error 521 or 522
-- **Solution:** 
+
+- **Solution:**
   - Set SSL/TLS mode to "Full" (not Full Strict)
   - Verify GitHub Pages is online
   - Wait a few minutes and retry
@@ -366,9 +379,10 @@ If deployment issues persist:
 
 ---
 
-**Congratulations! Your Necrux Guild website is now live! 🎉**
+### Congratulations — Your Necrux Guild website is now live! 🎉
 
 Next steps:
+
 - Share on social media
 - Update Discord with website link
 - Monitor analytics

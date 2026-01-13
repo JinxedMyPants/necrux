@@ -48,6 +48,7 @@ For each player (Strahd, JinxedMyPants, etc.):
 - [ ] Add more as needed...
 
 **Specifications:**
+
 - Size: 400x400px (square)
 - Max file size: 60KB each
 - Format: JPG or WebP
@@ -98,6 +99,7 @@ For each sponsor:
 - [ ] etc.
 
 **Specifications:**
+
 - Size: 300x100px (flexible)
 - Max file size: 50KB each
 - Format: PNG or SVG
@@ -108,12 +110,14 @@ For each sponsor:
 ## 🛠️ Image Optimization Tools
 
 ### Online Tools (Free)
+
 - **[TinyPNG](https://tinypng.com/)** - Best for PNG compression
 - **[Squoosh](https://squoosh.app/)** - Google's image optimizer
 - **[Favicon Generator](https://realfavicongenerator.net/)** - Creates all favicon files
 - **[Cloudinary](https://cloudinary.com/)** - Batch optimization
 
 ### Desktop Tools
+
 - **GIMP** (Free) - Editing and optimization
 - **Adobe Photoshop** (Paid) - Professional editing
 - **ImageOptim** (Mac) - Drag-and-drop optimization
@@ -127,7 +131,8 @@ For each sponsor:
 - Include size if multiple versions exist
 
 Examples:
-```
+
+```text
 ✅ logo-full.png
 ✅ player-strahd.jpg
 ✅ sponsor-brand-name.png
@@ -140,18 +145,21 @@ Examples:
 ## 🎯 Quick Start Steps
 
 ### Step 1: Prepare Your Logo
+
 1. Have your PNG logo ready
 2. Create 3 versions (full, icon, optimized) using the specs above
 3. Optimize with TinyPNG
 4. Place in `assets/images/`
 
 ### Step 2: Generate Favicons
+
 1. Go to [realfavicongenerator.net](https://realfavicongenerator.net/)
 2. Upload your logo-icon.png
 3. Download and extract files
 4. Place in `assets/images/`
 
 ### Step 3: Add Player Images
+
 1. Collect player photos or create custom graphics
 2. Resize to 400x400px (use [Squoosh](https://squoosh.app/))
 3. Optimize to <60KB
@@ -159,12 +167,14 @@ Examples:
 5. Place in `assets/images/players/`
 
 ### Step 4: Create Open Graph Image
+
 1. Design a 1200x630px image with your logo + tagline
 2. Use Canva, Photoshop, or GIMP
 3. Optimize to <200KB
 4. Save as `og-image.jpg` in `assets/images/`
 
 ### Step 5: Test the Site
+
 1. Open `index.html` in your browser
 2. Check that logo appears in hero
 3. Verify favicons in browser tab
@@ -172,16 +182,19 @@ Examples:
 
 ## 🔄 Updating Images Later
 
-### To Replace Logo:
+### To Replace Logo
+
 1. Optimize new PNG with same dimensions
 2. Overwrite `logo-full.png` in `assets/images/`
 3. Clear browser cache (Ctrl+Shift+R)
 4. Purge Cloudflare cache if deployed
 
-### To Add New Players:
+### To Add New Players
+
 1. Add image to `assets/images/players/`
 2. Edit `index.html` around line 180
 3. Copy a player card `<div>` and modify:
+
    ```html
    <div class="player-card" data-role="jungle">
        <div class="player-image">

@@ -52,7 +52,7 @@ necrux/
 
 #### Roster
 
-Edit player cards in `index.html` (lines 170-240):
+Edit player cards in `index.html` (Roster section):
 
 ```html
 <div class="player-card" data-role="jungle">
@@ -68,11 +68,11 @@ Edit player cards in `index.html` (lines 170-240):
 
 #### Schedule
 
-Update match cards in `index.html` (lines 250-290)
+Update match cards in `index.html` (Schedule section)
 
 #### Discord Link
 
-Update in `assets/js/main.js` (line 464):
+Update in `assets/js/main.js`:
 
 ```javascript
 const DISCORD_INVITE = 'https://discord.gg/your-invite-code';
@@ -80,7 +80,7 @@ const DISCORD_INVITE = 'https://discord.gg/your-invite-code';
 
 ### Colors
 
-Modify CSS variables in `assets/css/style.css` (lines 10-20):
+Modify CSS variables in `assets/css/style.css` (near the top of the file):
 
 ```css
 :root {
@@ -97,7 +97,7 @@ Current fonts (Google Fonts):
 - **Orbitron**: Headings (futuristic, bold)
 - **Rajdhani**: Body text (modern, readable)
 
-Change in `index.html` (line 34) and CSS variables
+Change the Google Fonts link in `index.html` head and CSS variables
 
 ## 🌐 Deployment
 
@@ -130,7 +130,7 @@ Change in `index.html` (line 34) and CSS variables
 2. **DNS Settings:**
    Create A records pointing to GitHub Pages IPs:
 
-   ```bash
+   ```text
    185.199.108.153
    185.199.109.153
    185.199.110.153
@@ -139,7 +139,7 @@ Change in `index.html` (line 34) and CSS variables
 
    Create CNAME for www:
 
-   ```bash
+   ```text
    www → yourusername.github.io
    ```
 
@@ -169,7 +169,7 @@ Change in `index.html` (line 34) and CSS variables
 
    ```bash
    python -m http.server 8000
-   # Visit http://localhost:8000
+   # Visit <http://localhost:8000>
    ```
 
 3. **Make changes:**

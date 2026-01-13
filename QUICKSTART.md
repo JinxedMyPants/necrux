@@ -7,6 +7,7 @@ Get your website live in 3 steps! Full details in README.md, ASSET_SETUP.md, and
 **What you need:** Your Necrux PNG logo file
 
 **Actions:**
+
 1. Optimize your logo at [tinypng.com](https://tinypng.com/)
 2. Save as `logo-full.png` in `assets/images/` folder
 3. Generate favicons at [realfavicongenerator.net](https://realfavicongenerator.net/)
@@ -28,7 +29,8 @@ git commit -m "Launch Necrux Guild website"
 git push origin main
 ```
 
-**Enable GitHub Pages:**
+### Enable GitHub Pages
+
 - Go to your repo → Settings → Pages
 - Source: `main` branch, `/` folder
 - Click Save
@@ -36,54 +38,65 @@ git push origin main
 
 ## 🌐 Step 3: Configure Custom Domain (Optional, 15 minutes)
 
-**If you have necrux.gg or similar:**
+If you have necrux.gg or similar:
 
-**GitHub:**
+### GitHub
+
 - Settings → Pages → Custom domain: `necrux.gg`
 - Save and wait
 
-**Cloudflare DNS:**
+### Cloudflare DNS
+
 - Add 4 A records to GitHub Pages IPs (see DEPLOYMENT.md)
 - Add CNAME for www
 - Set to Proxied (orange cloud)
 - SSL/TLS mode: Full
 - Enable "Always Use HTTPS"
 
-**Done!** Visit your domain in 10-60 minutes.
+Done — visit your domain in 10–60 minutes.
 
 ## 📝 Essential Customizations
 
 ### Update Discord Link
-Edit `assets/js/main.js` line 464:
+
+Edit `assets/js/main.js`:
+
 ```javascript
 const DISCORD_INVITE = 'https://discord.gg/YOUR-INVITE';
 ```
 
 ### Add Player Images
+
 1. Place images in `assets/images/players/`
 2. Name: `strahd.jpg`, `jinxedmypants.jpg`, etc.
 3. Size: 400x400px, <60KB each
 
 ### Update Match Schedule
-Edit `index.html` around line 260 - modify match cards with real dates/opponents
+
+Edit `index.html` (Schedule section) — modify match cards with real dates/opponents
 
 ### Update About Stats
-Edit `index.html` around line 150 - change `data-target` values for:
+
+Edit `index.html` (About section) — change `data-target` values for:
+
 - Tournament Wins
-- Active Players  
+- Active Players
 - Win Rate %
 
 ## 🐛 Quick Fixes
 
-**Logo not showing?**
+### Logo not showing?
+
 - Check file name: must be `logo-full.png` (lowercase)
 - Check location: `assets/images/logo-full.png`
 
-**Animations not working?**
+### Animations not working?
+
 - Check browser console (F12) for errors
 - Verify GSAP CDN links in `index.html`
 
-**Site not deploying?**
+### Site not deploying?
+
 - Check GitHub Actions tab for build errors
 - Verify branch name is `main` (not `master`)
 
@@ -129,4 +142,4 @@ Before going live:
 
 ---
 
-**Your website is ready to dominate! Good luck on the rift! 🎮⚔️**
+Your website is ready to dominate! Good luck on the rift! 🎮⚔️

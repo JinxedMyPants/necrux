@@ -1,0 +1,8 @@
+{
+  "name": "Necrux Guild",
+  "short_name": "Necrux",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#00FFFF",
+  "background_color": "#0A0A0F"
+}
