@@ -670,7 +670,7 @@
     }
 
     .player-card {
-        background: radial-gradient(circle at 20% 20%, rgba(0, 255, 0, 0.05), transparent 40%), var(--color-dark);
+        background: var(--color-dark);
         border-radius: 12px;
         overflow: hidden;
         transition: all var(--transition-normal);
@@ -679,30 +679,15 @@
         box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.12);
     }
 
-    /* Gravestone crack effect (visible, neon) */
+    /* Gravestone crack effect disabled to remove vertical line */
     .player-card::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background:
-            linear-gradient(135deg, transparent 46%, rgba(0, 255, 0, 0.22) 49%, rgba(0, 255, 0, 0.22) 51%, transparent 54%),
-            linear-gradient(-135deg, transparent 46%, rgba(255, 255, 0, 0.16) 49%, rgba(255, 255, 0, 0.16) 51%, transparent 54%);
-        background-size: 100% 4px, 100% 4px;
-        background-position: 0 6px, 0 16px;
-        background-repeat: repeat-y;
-        pointer-events: none;
-        opacity: 0.35;
-        transition: opacity var(--transition-normal);
+        content: none;
     }
 
     .player-card:hover {
         transform: translateY(-10px);
         box-shadow: var(--shadow-card), var(--aura-undead), inset 0 0 30px rgba(0, 255, 0, 0.12);
         border-color: var(--color-primary);
-    }
-
-    .player-card:hover::before {
-        opacity: 0.6;
     }
 
     .player-image {
