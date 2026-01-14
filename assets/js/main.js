@@ -9,6 +9,9 @@ gsap.registerPlugin(ScrollTrigger);
 // Check for reduced motion preference
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Keep a reference for global resize handlers
+let necromanticCanvasInstance = null;
+
 // ===================================
 // Necromantic Souls Canvas Background
 // ===================================
@@ -185,7 +188,7 @@ class NecromanticCanvas {
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('particleCanvas');
     if (canvas && !prefersReducedMotion) {
-        new NecromanticCanvas(canvas);
+        necromanticCanvasInstance = new NecromanticCanvas(canvas);
     }
 });
 
@@ -723,7 +726,7 @@ const debounce = (func, wait) => {
 
 // Optimized resize handler
 const handleResize = debounce(() => {
-    canvas.resize();
+    necromanticCanvasInstance?.resize();
 }, 250);
 
 window.addEventListener('resize', handleResize);
