@@ -626,7 +626,7 @@ main,
     padding: var(--spacing-xl) 0;
     position: relative;
     isolation: isolate;
-    background: #000000;
+    background: rgba(0, 0, 0, 0.85);
     scroll-margin-top: 100px;
 }
 
@@ -659,7 +659,7 @@ main,
 
 /* Programs Section */
 .programs-section {
-    background: #000000;
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .offerings-grid {
@@ -779,7 +779,7 @@ main,
 
 /* Roster Section */
 .roster-section {
-    background: #000000;
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .roster-filter {
@@ -887,7 +887,7 @@ main,
 
 /* Highlights Section */
 .highlights-section {
-    background: #000000;
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .highlights-grid {
@@ -944,7 +944,7 @@ main,
 
 /* Community Section */
 .community-section {
-    background: #000000;
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .proof-grid {
@@ -1012,7 +1012,7 @@ main,
 
 /* FAQ Section */
 .faq-section {
-    background: #000000;
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .faq-list {
@@ -1224,7 +1224,7 @@ main,
 
 /* Achievements Section */
 .achievements-section {
-    background: #000000;
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .achievements-grid {
@@ -1338,7 +1338,7 @@ main,
 
 /* Contact Section */
 .contact-section {
-    background: #000000;
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .contact-grid {
