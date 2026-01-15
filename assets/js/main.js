@@ -13,154 +13,178 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 let necromanticCanvasInstance = null;
 
 // ===================================
-// Necromantic Souls Canvas Background
+// Fire Canvas Background (Procedural Flame)
 // ===================================
-class NecromanticCanvas {
+class FireCanvas {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
-        this.souls = [];
-        this.soulCount = window.innerWidth < 768 ? 20 : 35;
-        this.mouse = { x: null, y: null };
+        this.buffer = document.createElement('canvas');
+        this.bufferCtx = this.buffer.getContext('2d', { willReadFrequently: true });
+        this.palette = this.buildPalette();
+        this.ashParticles = [];
         this.resize();
         this.init();
         this.animate();
         this.addEventListeners();
     }
 
+    buildPalette() {
+        const palette = new Array(256);
+        for (let i = 0; i < 256; i++) {
+            let r = 0;
+            let g = 0;
+            let b = 0;
+
+            if (i < 90) {
+                g = Math.floor(i * 2.6);
+                r = Math.floor(i * 0.6);
+            } else if (i < 180) {
+                g = 200 + Math.floor((i - 90) * 0.6);
+                r = 60 + Math.floor((i - 90) * 0.7);
+                b = Math.floor((i - 90) * 0.2);
+            } else {
+                g = 255;
+                r = 140 + Math.floor((i - 180) * 0.9);
+                b = 40 + Math.floor((i - 180) * 0.5);
+            }
+
+            palette[i] = [
+                Math.min(255, r),
+                Math.min(255, g),
+                Math.min(160, b),
+                Math.min(210, i + 20)
+            ];
+        }
+        return palette;
+    }
+
     resize() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
+        this.scale = window.innerWidth < 768 ? 5 : 4;
+        this.fireWidth = Math.max(120, Math.floor(this.canvas.width / this.scale));
+        this.fireHeight = Math.max(60, Math.floor(this.canvas.height / this.scale / 2.2));
+        this.buffer.width = this.fireWidth;
+        this.buffer.height = this.fireHeight;
+        this.imageData = this.bufferCtx.createImageData(this.fireWidth, this.fireHeight);
+        this.fire = new Uint8Array(this.fireWidth * this.fireHeight);
     }
 
     init() {
-        this.souls = [];
-        for (let i = 0; i < this.soulCount; i++) {
-            this.souls.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3 - 0.2, // Drift upward
-                size: Math.random() * 15 + 8,
-                opacity: Math.random() * 0.5 + 0.3,
-                hue: Math.random() > 0.7 ? 60 : 120, // Yellow or green
-                phase: Math.random() * Math.PI * 2,
-                phaseSpeed: Math.random() * 0.02 + 0.01,
-                rotation: Math.random() * Math.PI * 2,
-                rotationSpeed: (Math.random() - 0.5) * 0.02,
-                trail: [],
-                maxTrail: Math.floor(Math.random() * 8 + 5),
-                pulseSpeed: Math.random() * 0.05 + 0.02,
-                type: Math.random() > 0.85 ? 'skull' : 'wisp' // 15% skulls
-            });
+        this.fire.fill(0);
+        this.initAsh();
+    }
+
+    initAsh() {
+        const count = window.innerWidth < 768 ? 28 : 55;
+        this.ashParticles = Array.from({ length: count }, () => ({
+            x: Math.random() * this.canvas.width,
+            y: Math.random() * this.canvas.height,
+            radius: Math.random() * 1.8 + 0.6,
+            speed: Math.random() * 0.25 + 0.15,
+            drift: (Math.random() - 0.5) * 0.25,
+            opacity: Math.random() * 0.35 + 0.2
+        }));
+    }
+
+    seedFire() {
+        const base = (this.fireHeight - 1) * this.fireWidth;
+        for (let x = 0; x < this.fireWidth; x++) {
+            this.fire[base + x] = 200 + (Math.random() * 55) | 0;
         }
     }
 
-    drawSoul(soul) {
-        // Update position with floating drift
-        soul.x += soul.vx + Math.sin(soul.phase) * 0.3;
-        soul.y += soul.vy + Math.cos(soul.phase * 1.3) * 0.2;
-        soul.phase += soul.phaseSpeed;
-        soul.rotation += soul.rotationSpeed;
-
-        // Wrap around edges
-        if (soul.x < -50) soul.x = this.canvas.width + 50;
-        if (soul.x > this.canvas.width + 50) soul.x = -50;
-        if (soul.y < -50) soul.y = this.canvas.height + 50;
-        if (soul.y > this.canvas.height + 50) soul.y = -50;
-
-        // Add to trail
-        soul.trail.push({ x: soul.x, y: soul.y, opacity: soul.opacity });
-        if (soul.trail.length > soul.maxTrail) soul.trail.shift();
-
-        // Pulse opacity
-        const pulse = Math.sin(Date.now() * soul.pulseSpeed * 0.001) * 0.15 + soul.opacity;
-
-        // Draw ethereal trail
-        for (let i = 0; i < soul.trail.length; i++) {
-            const t = soul.trail[i];
-            const trailOpacity = (i / soul.trail.length) * pulse * 0.4;
-            const trailSize = soul.size * (i / soul.trail.length) * 0.6;
-            
-            this.ctx.save();
-            this.ctx.globalAlpha = trailOpacity;
-            const gradient = this.ctx.createRadialGradient(t.x, t.y, 0, t.x, t.y, trailSize);
-            gradient.addColorStop(0, `hsla(${soul.hue}, 100%, 60%, ${trailOpacity})`);
-            gradient.addColorStop(1, 'transparent');
-            this.ctx.fillStyle = gradient;
-            this.ctx.beginPath();
-            this.ctx.arc(t.x, t.y, trailSize, 0, Math.PI * 2);
-            this.ctx.fill();
-            this.ctx.restore();
-        }
-
-        this.ctx.save();
-        this.ctx.translate(soul.x, soul.y);
-        this.ctx.rotate(soul.rotation);
-        this.ctx.globalAlpha = pulse;
-
-        if (soul.type === 'skull') {
-            // Draw skull shape
-            this.ctx.fillStyle = `hsla(${soul.hue}, 100%, 70%, ${pulse})`;
-            this.ctx.beginPath();
-            this.ctx.ellipse(0, 0, soul.size * 0.6, soul.size * 0.7, 0, 0, Math.PI * 2);
-            this.ctx.fill();
-            
-            // Eye sockets
-            this.ctx.fillStyle = `rgba(0, 0, 0, ${pulse * 0.8})`;
-            this.ctx.beginPath();
-            this.ctx.arc(-soul.size * 0.25, -soul.size * 0.15, soul.size * 0.15, 0, Math.PI * 2);
-            this.ctx.arc(soul.size * 0.25, -soul.size * 0.15, soul.size * 0.15, 0, Math.PI * 2);
-            this.ctx.fill();
-            
-            // Glow
-            this.ctx.shadowBlur = 20;
-            this.ctx.shadowColor = `hsla(${soul.hue}, 100%, 60%, ${pulse})`;
-        } else {
-            // Draw wisp
-            const gradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, soul.size);
-            gradient.addColorStop(0, `hsla(${soul.hue}, 100%, 70%, ${pulse * 0.9})`);
-            gradient.addColorStop(0.4, `hsla(${soul.hue}, 100%, 60%, ${pulse * 0.6})`);
-            gradient.addColorStop(1, 'transparent');
-            this.ctx.fillStyle = gradient;
-            this.ctx.beginPath();
-            this.ctx.arc(0, 0, soul.size, 0, Math.PI * 2);
-            this.ctx.fill();
-
-            // Inner bright core
-            const coreGradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, soul.size * 0.4);
-            coreGradient.addColorStop(0, `hsla(${soul.hue}, 100%, 90%, ${pulse})`);
-            coreGradient.addColorStop(1, 'transparent');
-            this.ctx.fillStyle = coreGradient;
-            this.ctx.beginPath();
-            this.ctx.arc(0, 0, soul.size * 0.4, 0, Math.PI * 2);
-            this.ctx.fill();
-
-            this.ctx.shadowBlur = 25;
-            this.ctx.shadowColor = `hsla(${soul.hue}, 100%, 60%, ${pulse * 0.8})`;
-        }
-
-        this.ctx.restore();
-
-        // Mouse interaction - souls flee
-        if (this.mouse.x !== null && this.mouse.y !== null) {
-            const dx = soul.x - this.mouse.x;
-            const dy = soul.y - this.mouse.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < 150) {
-                const force = (150 - distance) / 150;
-                soul.x += (dx / distance) * force * 3;
-                soul.y += (dy / distance) * force * 3;
+    updateFire() {
+        this.seedFire();
+        for (let y = 1; y < this.fireHeight; y++) {
+            for (let x = 0; x < this.fireWidth; x++) {
+                const src = y * this.fireWidth + x;
+                const below = src + this.fireWidth;
+                const decay = (Math.random() * 3) | 0;
+                const dstX = Math.min(this.fireWidth - 1, Math.max(0, x + decay - 1));
+                const dst = (y - 1) * this.fireWidth + dstX;
+                const intensity = this.fire[below] - decay * 6;
+                this.fire[dst] = intensity > 0 ? intensity : 0;
             }
         }
     }
 
-    animate() {
+    renderFire() {
+        const data = this.imageData.data;
+        for (let i = 0; i < this.fire.length; i++) {
+            const intensity = this.fire[i];
+            const [r, g, b, a] = this.palette[intensity];
+            const index = i * 4;
+            data[index] = r;
+            data[index + 1] = g;
+            data[index + 2] = b;
+            data[index + 3] = a;
+        }
+        this.bufferCtx.putImageData(this.imageData, 0, 0);
+
+        const targetHeight = this.fireHeight * this.scale;
+        const targetY = this.canvas.height - targetHeight;
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        this.souls.forEach(soul => this.drawSoul(soul));
-        
+        this.ctx.save();
+        this.ctx.globalCompositeOperation = 'screen';
+        this.ctx.globalAlpha = 0.65;
+        this.ctx.imageSmoothingEnabled = true;
+        this.ctx.drawImage(this.buffer, 0, targetY, this.canvas.width, targetHeight);
+        this.ctx.restore();
+
+        // Fade out upper edge to avoid hard cutoff
+        this.ctx.save();
+        this.ctx.globalCompositeOperation = 'destination-out';
+        const fadeHeight = Math.min(140, targetHeight * 0.35);
+        const fadeGradient = this.ctx.createLinearGradient(0, targetY, 0, targetY + fadeHeight);
+        fadeGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+        fadeGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        this.ctx.fillStyle = fadeGradient;
+        this.ctx.fillRect(0, targetY, this.canvas.width, fadeHeight);
+        this.ctx.restore();
+    }
+
+    renderAsh() {
+        const ctx = this.ctx;
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = 'rgba(210, 220, 210, 0.35)';
+
+        this.ashParticles.forEach((particle) => {
+            particle.y -= particle.speed;
+            particle.x += particle.drift;
+            particle.opacity += (Math.random() - 0.5) * 0.02;
+            particle.opacity = Math.max(0.15, Math.min(0.5, particle.opacity));
+
+            if (particle.y < -10) {
+                particle.y = this.canvas.height + 10;
+                particle.x = Math.random() * this.canvas.width;
+            }
+
+            if (particle.x < -10) particle.x = this.canvas.width + 10;
+            if (particle.x > this.canvas.width + 10) particle.x = -10;
+
+            ctx.globalAlpha = particle.opacity;
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        ctx.restore();
+    }
+
+    animate() {
+        const now = performance.now();
+        if (!this.lastUpdate) this.lastUpdate = now;
+        const delta = now - this.lastUpdate;
+        if (delta > 32) {
+            this.updateFire();
+            this.lastUpdate = now;
+        }
+        this.renderFire();
+        this.renderAsh();
         requestAnimationFrame(() => this.animate());
     }
 
@@ -168,16 +192,6 @@ class NecromanticCanvas {
         window.addEventListener('resize', () => {
             this.resize();
             this.init();
-        });
-
-        this.canvas.addEventListener('mousemove', (e) => {
-            this.mouse.x = e.clientX;
-            this.mouse.y = e.clientY;
-        });
-
-        this.canvas.addEventListener('mouseleave', () => {
-            this.mouse.x = null;
-            this.mouse.y = null;
         });
     }
 }
@@ -188,9 +202,47 @@ class NecromanticCanvas {
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('particleCanvas');
     if (canvas && !prefersReducedMotion) {
-        necromanticCanvasInstance = new NecromanticCanvas(canvas);
+        necromanticCanvasInstance = new FireCanvas(canvas);
     }
 });
+
+// ===================================
+// 3D Tilt Effects (Hero Logo + Cards)
+// ===================================
+if (!prefersReducedMotion) {
+    const createTilt = (element, maxTilt = 12, perspective = 900) => {
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+        const handleMove = (event) => {
+            const rect = element.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const midX = rect.width / 2;
+            const midY = rect.height / 2;
+            const tiltX = clamp(((y - midY) / midY) * -maxTilt, -maxTilt, maxTilt);
+            const tiltY = clamp(((x - midX) / midX) * maxTilt, -maxTilt, maxTilt);
+
+            element.style.transform = `perspective(${perspective}px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        };
+
+        const reset = () => {
+            element.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg)';
+        };
+
+        element.addEventListener('mousemove', handleMove);
+        element.addEventListener('mouseleave', reset);
+        element.addEventListener('blur', reset);
+    };
+
+    const heroLogo = document.querySelector('.hero-logo');
+    if (heroLogo) {
+        createTilt(heroLogo, 18, 700);
+    }
+
+    document.querySelectorAll('.player-card').forEach((card) => {
+        createTilt(card, 20, 800);
+    });
+}
 
 // ===================================
 // Navigation
@@ -306,6 +358,7 @@ if (!prefersReducedMotion) {
         delay: 0.24
     });
 
+
     gsap.fromTo('.scroll-indicator', { opacity: 0 }, {
         duration: 0.5,
         opacity: 1,
@@ -369,6 +422,20 @@ if (!prefersReducedMotion) {
         ease: 'back.out(1.4)'
     });
 
+    // Programs cards
+    gsap.fromTo('.offer-card', { opacity: 0.95, y: 14 }, {
+        scrollTrigger: {
+            trigger: '.offerings-grid',
+            start: 'top 85%'
+        },
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        y: 0,
+        stagger: 0.1,
+        ease: 'power2.out'
+    });
+
     // Roster cards animation
     gsap.fromTo('.player-card', { opacity: 0.95, y: 14 }, {
         scrollTrigger: {
@@ -397,6 +464,20 @@ if (!prefersReducedMotion) {
         ease: 'power2.out'
     });
 
+    // Highlight cards animation
+    gsap.fromTo('.highlight-card', { opacity: 0.95, y: 14 }, {
+        scrollTrigger: {
+            trigger: '.highlights-grid',
+            start: 'top 85%'
+        },
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        y: 0,
+        stagger: 0.08,
+        ease: 'power2.out'
+    });
+
     // Achievement cards animation
     gsap.fromTo('.achievement-card', { opacity: 0.95, scale: 0.96 }, {
         scrollTrigger: {
@@ -411,6 +492,33 @@ if (!prefersReducedMotion) {
         ease: 'back.out(1.4)'
     });
 
+    // Community proof + testimonials
+    gsap.fromTo('.proof-card', { opacity: 0.95, y: 12 }, {
+        scrollTrigger: {
+            trigger: '.proof-grid',
+            start: 'top 85%'
+        },
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        y: 0,
+        stagger: 0.08,
+        ease: 'power2.out'
+    });
+
+    gsap.fromTo('.testimonial-card', { opacity: 0.95, y: 12 }, {
+        scrollTrigger: {
+            trigger: '.testimonials-grid',
+            start: 'top 85%'
+        },
+        immediateRender: false,
+        duration: 0.5,
+        opacity: 1,
+        y: 0,
+        stagger: 0.08,
+        ease: 'power2.out'
+    });
+
     // Sponsor cards animation
     gsap.fromTo('.sponsor-card', { opacity: 0.95, y: 12 }, {
         scrollTrigger: {
@@ -422,6 +530,20 @@ if (!prefersReducedMotion) {
         opacity: 1,
         y: 0,
         stagger: 0.08,
+        ease: 'power2.out'
+    });
+
+    // FAQ items
+    gsap.fromTo('.faq-item', { opacity: 0.95, y: 12 }, {
+        scrollTrigger: {
+            trigger: '.faq-list',
+            start: 'top 85%'
+        },
+        immediateRender: false,
+        duration: 0.45,
+        opacity: 1,
+        y: 0,
+        stagger: 0.06,
         ease: 'power2.out'
     });
 

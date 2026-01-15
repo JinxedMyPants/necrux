@@ -25,3 +25,4 @@ build/
 *.psd
 *.ai
 *.sketch
+.github/copilot-instructions.md
