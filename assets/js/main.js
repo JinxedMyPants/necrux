@@ -1,4 +1,4 @@
-// Necrux Guild - Main JavaScript
+﻿// Necrux Guild - Main JavaScript
 // Professional Animated Wild Rift Website
 
 // ===================================
@@ -286,7 +286,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const href = this.getAttribute('href');
         if (href === '#' || !href) return;
         
-        e.preventDefault();
+        // e.preventDefault(); // Allow native anchor navigation
         const target = document.querySelector(href);
         if (target) {
             const navHeight = navbar.offsetHeight;
@@ -698,7 +698,7 @@ const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+        // e.preventDefault(); // Allow native anchor navigation
         const formData = new FormData(contactForm);
         const name = formData.get('name');
         const email = formData.get('email');
@@ -794,7 +794,7 @@ if (sponsorModalBackdrop) sponsorModalBackdrop.addEventListener('click', closeSp
 
 if (sponsorForm) {
     sponsorForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+        // e.preventDefault(); // Allow native anchor navigation
         const formData = new FormData(sponsorForm);
         const name = formData.get('name');
         const company = formData.get('company');
@@ -866,7 +866,7 @@ interactiveCards.forEach(card => {
     
     card.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
+            // e.preventDefault(); // Allow native anchor navigation
             card.click();
         }
     });
