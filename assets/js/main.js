@@ -62,13 +62,14 @@ class FireCanvas {
     resize() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-        this.scale = window.innerWidth < 768 ? 5 : 4;
+        this.scale = window.innerWidth < 768 ? 4 : 3;
         this.fireWidth = Math.max(120, Math.floor(this.canvas.width / this.scale));
-        this.fireHeight = Math.max(60, Math.floor(this.canvas.height / this.scale / 2.2));
+        this.fireHeight = Math.max(60, Math.floor(this.canvas.height / this.scale / 2.4));
         this.buffer.width = this.fireWidth;
         this.buffer.height = this.fireHeight;
         this.imageData = this.bufferCtx.createImageData(this.fireWidth, this.fireHeight);
         this.fire = new Uint8Array(this.fireWidth * this.fireHeight);
+        this.maxFlameHeightPx = Math.max(180, Math.floor(this.canvas.height * 0.26));
     }
 
     init() {
@@ -123,23 +124,24 @@ class FireCanvas {
         }
         this.bufferCtx.putImageData(this.imageData, 0, 0);
 
-        const targetHeight = this.fireHeight * this.scale;
+        const targetHeight = Math.min(this.fireHeight * this.scale, this.maxFlameHeightPx);
         const targetY = this.canvas.height - targetHeight;
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.save();
-        this.ctx.globalCompositeOperation = 'screen';
-        this.ctx.globalAlpha = 0.65;
+        this.ctx.globalAlpha = 1.0;
         this.ctx.imageSmoothingEnabled = true;
         this.ctx.drawImage(this.buffer, 0, targetY, this.canvas.width, targetHeight);
         this.ctx.restore();
 
-        // Fade out upper edge to avoid hard cutoff
+        // Smooth fade out upper edge with multiple gradient stops
         this.ctx.save();
         this.ctx.globalCompositeOperation = 'destination-out';
-        const fadeHeight = Math.min(140, targetHeight * 0.35);
+        const fadeHeight = Math.min(80, targetHeight * 0.3);
         const fadeGradient = this.ctx.createLinearGradient(0, targetY, 0, targetY + fadeHeight);
-        fadeGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+        fadeGradient.addColorStop(0, 'rgba(0, 0, 0, 0.4)');
+        fadeGradient.addColorStop(0.3, 'rgba(0, 0, 0, 0.2)');
+        fadeGradient.addColorStop(0.6, 'rgba(0, 0, 0, 0.1)');
         fadeGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         this.ctx.fillStyle = fadeGradient;
         this.ctx.fillRect(0, targetY, this.canvas.width, fadeHeight);
@@ -150,7 +152,7 @@ class FireCanvas {
         const ctx = this.ctx;
         ctx.save();
         ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = 'rgba(210, 220, 210, 0.35)';
+        ctx.fillStyle = 'rgba(210, 220, 210, 0.25)';
 
         this.ashParticles.forEach((particle) => {
             particle.y -= particle.speed;
