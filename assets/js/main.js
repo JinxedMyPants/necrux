@@ -69,7 +69,7 @@ class FireCanvas {
         this.buffer.height = this.fireHeight;
         this.imageData = this.bufferCtx.createImageData(this.fireWidth, this.fireHeight);
         this.fire = new Uint8Array(this.fireWidth * this.fireHeight);
-        this.maxFlameHeightPx = Math.max(180, Math.floor(this.canvas.height * 0.26));
+        this.maxFlameHeightPx = Math.max(480, Math.floor(this.canvas.height * 0.38));
     }
 
     init() {
