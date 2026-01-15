@@ -912,7 +912,10 @@ const updateAudioUI = (isPlaying) => {
 };
 
 if (bgAudio) {
-    bgAudio.volume = 0.05;
+    bgAudio.volume = 0.3;
+
+    if (volumeSlider) volumeSlider.value = '30';
+    if (volumeLabel) volumeLabel.textContent = '30%';
     
     if (audioToggle) {
         audioToggle.addEventListener('click', () => {
