@@ -427,8 +427,8 @@ a:focus-visible {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1;
-    filter: saturate(1.2) brightness(1.1);
+    z-index: 5;
+    filter: saturate(1.5) brightness(1.3) contrast(1.1);
     mix-blend-mode: screen;
 }
 
@@ -626,7 +626,8 @@ main,
     padding: var(--spacing-xl) 0;
     position: relative;
     isolation: isolate;
-    background: rgba(5, 7, 10, 0.78);
+    background: #000000;
+    scroll-margin-top: 100px;
 }
 
 .section-title {
@@ -658,7 +659,7 @@ main,
 
 /* Programs Section */
 .programs-section {
-    background: rgba(5, 7, 10, 0.78);
+    background: #000000;
 }
 
 .offerings-grid {
@@ -778,7 +779,7 @@ main,
 
 /* Roster Section */
 .roster-section {
-    background: rgba(5, 7, 10, 0.78);
+    background: #000000;
 }
 
 .roster-filter {
@@ -886,7 +887,7 @@ main,
 
 /* Highlights Section */
 .highlights-section {
-    background: rgba(5, 7, 10, 0.78);
+    background: #000000;
 }
 
 .highlights-grid {
@@ -943,7 +944,7 @@ main,
 
 /* Community Section */
 .community-section {
-    background: rgba(5, 7, 10, 0.78);
+    background: #000000;
 }
 
 .proof-grid {
@@ -1011,7 +1012,7 @@ main,
 
 /* FAQ Section */
 .faq-section {
-    background: rgba(5, 7, 10, 0.78);
+    background: #000000;
 }
 
 .faq-list {
@@ -1223,7 +1224,7 @@ main,
 
 /* Achievements Section */
 .achievements-section {
-    background: rgba(5, 7, 10, 0.78);
+    background: #000000;
 }
 
 .achievements-grid {
@@ -1337,7 +1338,7 @@ main,
 
 /* Contact Section */
 .contact-section {
-    background: rgba(5, 7, 10, 0.78);
+    background: #000000;
 }
 
 .contact-grid {
@@ -1892,3 +1893,6 @@ main,
         padding: 0.55rem 0.85rem;
     }
 }
+
+
+
