@@ -136,14 +136,17 @@ class FireCanvas {
         this.ctx.drawImage(this.buffer, 0, targetY, this.canvas.width, targetHeight);
         this.ctx.restore();
 
-        // Smooth fade out upper edge with multiple gradient stops
+        // Ultra-smooth fade out upper edge - longer gradient with more stops for invisible transition
         this.ctx.save();
         this.ctx.globalCompositeOperation = 'destination-out';
-        const fadeHeight = Math.min(80, targetHeight * 0.3);
+        const fadeHeight = Math.min(180, targetHeight * 0.55);
         const fadeGradient = this.ctx.createLinearGradient(0, targetY, 0, targetY + fadeHeight);
-        fadeGradient.addColorStop(0, 'rgba(0, 0, 0, 0.4)');
-        fadeGradient.addColorStop(0.3, 'rgba(0, 0, 0, 0.2)');
-        fadeGradient.addColorStop(0.6, 'rgba(0, 0, 0, 0.1)');
+        fadeGradient.addColorStop(0, 'rgba(0, 0, 0, 0.75)');
+        fadeGradient.addColorStop(0.15, 'rgba(0, 0, 0, 0.5)');
+        fadeGradient.addColorStop(0.3, 'rgba(0, 0, 0, 0.3)');
+        fadeGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.15)');
+        fadeGradient.addColorStop(0.7, 'rgba(0, 0, 0, 0.05)');
+        fadeGradient.addColorStop(0.85, 'rgba(0, 0, 0, 0.01)');
         fadeGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         this.ctx.fillStyle = fadeGradient;
         this.ctx.fillRect(0, targetY, this.canvas.width, fadeHeight);
