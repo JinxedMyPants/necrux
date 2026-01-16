@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://necrux.gg/sitemap.xml
+Sitemap: https://necrux.org/sitemap.xml

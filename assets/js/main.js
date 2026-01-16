@@ -26,7 +26,6 @@ class FireCanvas {
         this.resize();
         this.init();
         this.animate();
-        this.addEventListeners();
     }
 
     buildPalette() {
@@ -196,13 +195,6 @@ class FireCanvas {
         this.renderAsh();
         requestAnimationFrame(() => this.animate());
     }
-
-    addEventListeners() {
-        window.addEventListener('resize', () => {
-            this.resize();
-            this.init();
-        });
-    }
 }
 
 // ===================================
@@ -289,15 +281,14 @@ navLinks.forEach(link => {
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+    anchor.addEventListener('click', function () {
         const href = this.getAttribute('href');
         if (href === '#' || !href) return;
-        
-        // e.preventDefault(); // Allow native anchor navigation
         const target = document.querySelector(href);
         if (target) {
             const navHeight = navbar.offsetHeight;
-            const targetPosition = target.offsetTop - navHeight;
+            const offset = Math.max(navHeight - 24, 0);
+            const targetPosition = target.offsetTop - offset;
             window.scrollTo({
                 top: targetPosition,
                 behavior: 'smooth'
@@ -629,7 +620,7 @@ if (glitchElement && !prefersReducedMotion) {
 const statNumbers = document.querySelectorAll('.stat-number');
 
 const animateCounter = (element) => {
-    const target = parseInt(element.getAttribute('data-target'));
+    const target = Number.parseInt(element.getAttribute('data-target'), 10);
     const duration = 2000;
     const increment = target / (duration / 16);
     let current = 0;
@@ -705,7 +696,7 @@ const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
-        // e.preventDefault(); // Allow native anchor navigation
+        e.preventDefault();
         const formData = new FormData(contactForm);
         const name = formData.get('name');
         const email = formData.get('email');
@@ -754,8 +745,7 @@ const DISCORD_INVITE = 'https://discord.gg/XNR3be2t';
 
 // Update all Discord links
 const discordLinks = [
-    document.getElementById('discordLink'),
-    document.getElementById('footerDiscord')
+    document.getElementById('discordLink')
 ];
 
 discordLinks.forEach(link => {
@@ -801,7 +791,7 @@ if (sponsorModalBackdrop) sponsorModalBackdrop.addEventListener('click', closeSp
 
 if (sponsorForm) {
     sponsorForm.addEventListener('submit', (e) => {
-        // e.preventDefault(); // Allow native anchor navigation
+        e.preventDefault();
         const formData = new FormData(sponsorForm);
         const name = formData.get('name');
         const company = formData.get('company');
@@ -857,7 +847,9 @@ const debounce = (func, wait) => {
 
 // Optimized resize handler
 const handleResize = debounce(() => {
-    necromanticCanvasInstance?.resize();
+    if (!necromanticCanvasInstance) return;
+    necromanticCanvasInstance.resize();
+    necromanticCanvasInstance.init();
 }, 250);
 
 window.addEventListener('resize', handleResize);
@@ -873,7 +865,6 @@ interactiveCards.forEach(card => {
     
     card.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-            // e.preventDefault(); // Allow native anchor navigation
             card.click();
         }
     });
@@ -887,18 +878,6 @@ const audioToggle = document.getElementById('audioToggle');
 const volumeSlider = document.getElementById('volumeSlider');
 const volumeControl = document.querySelector('.volume-control');
 const volumeLabel = document.querySelector('.volume-label');
-
-const setAudioToggleState = (muted) => {
-    if (!audioToggle) return;
-    audioToggle.classList.toggle('muted', muted);
-    audioToggle.setAttribute('aria-pressed', (!muted).toString());
-    const label = audioToggle.querySelector('.audio-label');
-    const icon = audioToggle.querySelector('.audio-icon');
-    if (label) label.textContent = muted ? 'Play Anthem' : 'Mute Anthem';
-    if (icon) icon.textContent = muted ? '♫' : '♪';
-};
-
-if (audioToggle) setAudioToggleState(true);
 
 const updateAudioUI = (isPlaying) => {
     if (!audioToggle) return;
@@ -920,6 +899,8 @@ const updateAudioUI = (isPlaying) => {
     }
 };
 
+if (audioToggle) updateAudioUI(false);
+
 if (bgAudio) {
     bgAudio.volume = 0.3;
 
@@ -940,7 +921,7 @@ if (bgAudio) {
 
     if (volumeSlider) {
         volumeSlider.addEventListener('input', (e) => {
-            const percentage = parseInt(e.target.value);
+            const percentage = Number.parseInt(e.target.value, 10);
             bgAudio.volume = percentage / 100;
             if (volumeLabel) volumeLabel.textContent = percentage + '%';
         });
