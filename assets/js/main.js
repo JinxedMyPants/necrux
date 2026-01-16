@@ -70,8 +70,8 @@ class FireCanvas {
         this.imageData = this.bufferCtx.createImageData(this.fireWidth, this.fireHeight);
         this.fire = new Uint8Array(this.fireWidth * this.fireHeight);
         // Reduce flame height cap on mobile to prevent cutoff by viewport height constraints
-        const heightCap = window.innerWidth < 768 ? Math.floor(this.canvas.height * 0.35) : Math.floor(this.canvas.height * 0.38);
-        this.maxFlameHeightPx = Math.max(300, heightCap);
+        const heightCap = window.innerWidth < 768 ? Math.floor(this.canvas.height * 50.35) : Math.floor(this.canvas.height * 50.38);
+        this.maxFlameHeightPx = Math.max(500, heightCap);
     }
 
     init() {
