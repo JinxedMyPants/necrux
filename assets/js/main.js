@@ -690,31 +690,47 @@ filterButtons.forEach(button => {
 });
 
 // ===================================
-// Contact Form
+// Contact Form (Web3Forms)
 // ===================================
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const role = formData.get('role');
-        const message = formData.get('message');
-
-        const subject = encodeURIComponent('Necrux Player Application');
-        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nPreferred Role: ${role}\n\nAbout:\n${message}`);
-        const mailtoLink = `mailto:raphael.kehldorfer@gmail.com?subject=${subject}&body=${body}`;
-
-        // Create and click anchor element
-        const link = document.createElement('a');
-        link.href = mailtoLink;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
         
-        contactForm.reset();
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="btn-text">Sending...</span>';
+        
+        try {
+            const formData = new FormData(contactForm);
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                submitBtn.innerHTML = '<span class="btn-text">✓ Sent!</span>';
+                contactForm.reset();
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 3000);
+            } else {
+                throw new Error(result.message || 'Submission failed');
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            submitBtn.innerHTML = '<span class="btn-text">Error - Try Again</span>';
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        }
     });
 }
 
@@ -790,43 +806,44 @@ if (sponsorModalClose) sponsorModalClose.addEventListener('click', closeSponsorM
 if (sponsorModalBackdrop) sponsorModalBackdrop.addEventListener('click', closeSponsorModal);
 
 if (sponsorForm) {
-    sponsorForm.addEventListener('submit', (e) => {
+    sponsorForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData(sponsorForm);
-        const name = formData.get('name');
-        const company = formData.get('company');
-        const email = formData.get('email');
-        const message = formData.get('message');
-
-        const subject = encodeURIComponent('Necrux Sponsorship Inquiry');
-        const body = encodeURIComponent(`Name: ${name}\nCompany: ${company}\nEmail: ${email}\n\nProposal:\n${message}`);
-        const mailtoLink = `mailto:raphael.kehldorfer@gmail.com?subject=${subject}&body=${body}`;
-
-        // Create and click anchor element
-        const link = document.createElement('a');
-        link.href = mailtoLink;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        sponsorForm.reset();
-        closeSponsorModal();
+        const submitBtn = sponsorForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        
+        try {
+            const formData = new FormData(sponsorForm);
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                submitBtn.textContent = '✓ Sent!';
+                sponsorForm.reset();
+                setTimeout(() => {
+                    closeSponsorModal();
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, 2000);
+            } else {
+                throw new Error(result.message || 'Submission failed');
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            submitBtn.textContent = 'Error - Try Again';
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        }
     });
-}
-
-// ===================================
-// Image Lazy Loading Enhancement
-// ===================================
-if ('loading' in HTMLImageElement.prototype) {
-    const images = document.querySelectorAll('img[loading="lazy"]');
-    images.forEach(img => {
-        img.src = img.dataset.src || img.src;
-    });
-} else {
-    // Fallback for browsers that don't support lazy loading
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
-    document.body.appendChild(script);
 }
 
 // ===================================

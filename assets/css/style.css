@@ -55,6 +55,11 @@ body {
     touch-action: pan-y pinch-zoom;
 }
 
+/* Utility: visually hidden (for honeypot spam fields) */
+.hidden {
+    display: none !important;
+}
+
 body::before {
     content: '';
     position: fixed;

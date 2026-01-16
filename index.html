@@ -7,8 +7,8 @@
     
     <title>Necrux Guild | Esports Guild</title>
     <meta name="title" content="Necrux Guild | Esports Guild">
-    <meta name="description" content="Necrux is a competitive esports guild. Join our roster that rises from the grave to dominate with precision, strategy, and ruthless execution.">
-    <meta name="keywords" content="esports, guild, competitive gaming, MOBA, League of Legends, Necrux, gaming team">
+    <meta name="description" content="Necrux is a competitive Wild Rift esports guild. Join our roster that rises from the grave to dominate with precision, strategy, and ruthless execution.">
+    <meta name="keywords" content="esports, guild, competitive gaming, MOBA, League of Legends: Wild Rift, Necrux, gaming team">
     <meta name="author" content="Necrux Guild">
     <meta name="color-scheme" content="dark light">
     
@@ -17,12 +17,6 @@
     <meta property="og:title" content="Necrux Guild | Esports Guild">
     <meta property="og:description" content="Competitive esports guild. Elite players, ruthless execution, relentless domination.">
     <meta property="og:image" content="https://necrux.org/assets/images/og-image.jpg">
-    
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://necrux.org/">
-    <meta property="twitter:title" content="Necrux Guild | Esports Guild">
-    <meta property="twitter:description" content="Competitive esports guild. Elite players, ruthless execution, relentless domination.">
-    <meta property="twitter:image" content="https://necrux.org/assets/images/og-image.jpg">
     
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
@@ -490,7 +484,11 @@
                 <button class="modal-close" id="sponsorModalClose" aria-label="Close sponsor form">×</button>
                 <h3 id="sponsorModalTitle">Become a Sponsor</h3>
                 <p class="modal-subtitle">Tell us about your brand and we’ll reach out fast.</p>
-                <form class="modal-form" id="sponsorForm">
+                <form class="modal-form" id="sponsorForm" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="30e0979f-fa36-430b-b732-804655c67bcb" />
+                    <input type="hidden" name="subject" value="Necrux Sponsorship Inquiry" />
+                    <input type="hidden" name="from_name" value="Necrux Website" />
+                    <input type="hidden" name="botcheck" value="" />
                     <label>
                         Your Name
                         <input type="text" name="name" required placeholder="Your name" />
@@ -558,7 +556,11 @@
                     </div>
                     
                     <div class="contact-form-container">
-                        <form class="contact-form" id="contactForm">
+                        <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                            <input type="hidden" name="access_key" value="30e0979f-fa36-430b-b732-804655c67bcb" />
+                            <input type="hidden" name="subject" value="Necrux Player Application" />
+                            <input type="hidden" name="from_name" value="Necrux Website" />
+                            <input type="hidden" name="botcheck" value="" />
                             <div class="form-group">
                                 <label for="name">In-Game Name</label>
                                 <input type="text" id="name" name="name" required placeholder="Your IGN" />
