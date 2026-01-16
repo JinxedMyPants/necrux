@@ -425,6 +425,9 @@ a:focus-visible {
     right: 0;
     bottom: 0;
     z-index: 0;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .particle-canvas {
@@ -439,6 +442,7 @@ a:focus-visible {
     mix-blend-mode: screen;
     will-change: transform;
     backface-visibility: hidden;
+    transform: translateZ(0);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -464,6 +468,8 @@ a:focus-visible {
     padding: var(--spacing-md);
     max-width: 1200px;
     will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .hero,
@@ -638,6 +644,8 @@ main,
     position: relative;
     isolation: isolate;
     background: rgba(0, 0, 0, 0.85);
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .section-title {
