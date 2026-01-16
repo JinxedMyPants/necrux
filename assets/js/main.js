@@ -70,8 +70,8 @@ class FireCanvas {
         this.imageData = this.bufferCtx.createImageData(this.fireWidth, this.fireHeight);
         this.fire = new Uint8Array(this.fireWidth * this.fireHeight);
         // Reduce flame height cap on mobile to prevent cutoff by viewport height constraints
-        const heightCap = window.innerWidth < 768 ? Math.floor(this.canvas.height * 50.35) : Math.floor(this.canvas.height * 50.38);
-        this.maxFlameHeightPx = Math.max(500, heightCap);
+        const heightCap = window.innerWidth < 768 ? Math.floor(this.canvas.height * 0.35) : Math.floor(this.canvas.height * 0.38);
+        this.maxFlameHeightPx = Math.max(300, heightCap);
     }
 
     init() {
@@ -136,17 +136,19 @@ class FireCanvas {
         this.ctx.drawImage(this.buffer, 0, targetY, this.canvas.width, targetHeight);
         this.ctx.restore();
 
-        // Ultra-smooth fade out upper edge - longer gradient with more stops for invisible transition
+        // Ultra-smooth fade out upper edge - extended gradient for seamless transition
         this.ctx.save();
         this.ctx.globalCompositeOperation = 'destination-out';
-        const fadeHeight = Math.min(180, targetHeight * 0.55);
+        const fadeHeight = Math.min(300, targetHeight * 0.65);
         const fadeGradient = this.ctx.createLinearGradient(0, targetY, 0, targetY + fadeHeight);
-        fadeGradient.addColorStop(0, 'rgba(0, 0, 0, 0.75)');
-        fadeGradient.addColorStop(0.15, 'rgba(0, 0, 0, 0.5)');
-        fadeGradient.addColorStop(0.3, 'rgba(0, 0, 0, 0.3)');
-        fadeGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.15)');
-        fadeGradient.addColorStop(0.7, 'rgba(0, 0, 0, 0.05)');
-        fadeGradient.addColorStop(0.85, 'rgba(0, 0, 0, 0.01)');
+        fadeGradient.addColorStop(0, 'rgba(0, 0, 0, 0.95)');
+        fadeGradient.addColorStop(0.08, 'rgba(0, 0, 0, 0.85)');
+        fadeGradient.addColorStop(0.15, 'rgba(0, 0, 0, 0.7)');
+        fadeGradient.addColorStop(0.25, 'rgba(0, 0, 0, 0.5)');
+        fadeGradient.addColorStop(0.35, 'rgba(0, 0, 0, 0.35)');
+        fadeGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.2)');
+        fadeGradient.addColorStop(0.65, 'rgba(0, 0, 0, 0.1)');
+        fadeGradient.addColorStop(0.8, 'rgba(0, 0, 0, 0.03)');
         fadeGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         this.ctx.fillStyle = fadeGradient;
         this.ctx.fillRect(0, targetY, this.canvas.width, fadeHeight);
