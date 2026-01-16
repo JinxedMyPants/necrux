@@ -69,7 +69,9 @@ class FireCanvas {
         this.buffer.height = this.fireHeight;
         this.imageData = this.bufferCtx.createImageData(this.fireWidth, this.fireHeight);
         this.fire = new Uint8Array(this.fireWidth * this.fireHeight);
-        this.maxFlameHeightPx = Math.max(480, Math.floor(this.canvas.height * 0.38));
+        // Reduce flame height cap on mobile to prevent cutoff by viewport height constraints
+        const heightCap = window.innerWidth < 768 ? Math.floor(this.canvas.height * 0.35) : Math.floor(this.canvas.height * 0.38);
+        this.maxFlameHeightPx = Math.max(300, heightCap);
     }
 
     init() {
