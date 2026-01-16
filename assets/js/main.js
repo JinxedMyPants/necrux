@@ -80,7 +80,7 @@ class FireCanvas {
     }
 
     initAsh() {
-        const count = window.innerWidth < 768 ? 28 : 55;
+        const count = window.innerWidth < 768 ? 45 : 80;
         this.ashParticles = Array.from({ length: count }, () => ({
             x: Math.random() * this.canvas.width,
             y: Math.random() * this.canvas.height,
