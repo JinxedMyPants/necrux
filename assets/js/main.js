@@ -760,7 +760,7 @@ backToTopButton.addEventListener('click', () => {
 // ===================================
 // Discord Link Management
 // ===================================
-const DISCORD_INVITE = 'https://discord.gg/XNR3be2t';
+const DISCORD_INVITE = 'https://discord.gg/nevernegotiateesports';
 
 // Update all Discord links
 const discordLinks = [
