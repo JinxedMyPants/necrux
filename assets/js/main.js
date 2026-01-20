@@ -952,7 +952,6 @@ if (bgAudio) {
 // Console Message
 // ===================================
 if (!window.location.hostname.includes('localhost')) {
-    console.log('%c NECRUX GUILD ', 'background: #00FF00; color: #0A0A0F; font-size: 20px; font-weight: bold; padding: 10px;');
-    console.log('%c Elite Wild Rift Esports Team ', 'color: #00FF00; font-size: 14px;');
-    console.log('%c Join our Discord at necrux.org ', 'color: #B8B8C8; font-size: 12px;');
+    console.log('%c NCX - NECRUX', 'background: #00FF00; color: #0A0A0F; font-size: 20px; font-weight: bold; padding: 10px;');
+    console.log('%c Elite Wild Rift Esports Team', 'color: #00FF00; font-size: 14px;');
 }
