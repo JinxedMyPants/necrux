@@ -1,0 +1,29 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor Files
+.vscode/
+.vs/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build/Temporary Files
+*.log
+*.tmp
+node_modules/
+dist/
+build/
+
+# Environment Files
+.env
+.env.local
+
+# Asset Source Files (keep optimized versions only)
+*.psd
+*.ai
+*.sketch
+.github/copilot-instructions.md

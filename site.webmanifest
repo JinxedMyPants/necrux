@@ -1,0 +1,20 @@
+{
+  "name": "Necrux Guild",
+  "short_name": "Necrux",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#00FF00",
+  "background_color": "#0A0A0F",
+  "icons": [
+    {
+      "src": "/assets/images/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
