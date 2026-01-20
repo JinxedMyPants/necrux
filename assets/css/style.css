@@ -1351,18 +1351,23 @@ main,
 }
 
 .sponsor-text {
-    color: #fff;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.95rem;
-    text-align: center;
-    text-shadow: 0 0 8px #00ff00, 0 0 2px #000;
-    letter-spacing: 1px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    max-width: 98%;
-    box-sizing: border-box;
+    color: #fff !important;
+    font-family: 'Orbitron', Arial, sans-serif !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    text-shadow: 0 0 8px #00ff00, 0 0 2px #000 !important;
+    letter-spacing: 1px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+    max-width: 98% !important;
+    box-sizing: border-box !important;
+    opacity: 1 !important;
+    z-index: 2 !important;
+    position: relative !important;
+    background: transparent !important;
 }
 
 .sponsor-card:hover {
