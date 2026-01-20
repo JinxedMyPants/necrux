@@ -1322,14 +1322,7 @@ main,
 
 .sponsor-card {
     position: relative;
-    width: 100%;
-    height: 220px;
     overflow: hidden;
-    border-radius: 16px;
-    box-shadow: 0 0 24px #00ff00a0;
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
 }
 
 .sponsor-img {
@@ -1337,17 +1330,20 @@ main,
     height: 100%;
     object-fit: cover;
     display: block;
+    position: relative;
+    z-index: 1;
 }
 
 .sponsor-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.7);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 1rem;
-    min-width: 0;
+    z-index: 2;
+    opacity: 1 !important;
+    pointer-events: none;
 }
 
 .sponsor-text {
@@ -1365,16 +1361,11 @@ main,
     max-width: 98% !important;
     box-sizing: border-box !important;
     opacity: 1 !important;
-    z-index: 2 !important;
+    z-index: 3 !important;
     position: relative !important;
     background: transparent !important;
 }
 
-.sponsor-card:hover {
-    transform: translateY(-6px) rotateX(1deg) rotateY(-1deg);
-}
-
-/* Contact Section */
 .contact-section {
     background: rgba(0, 0, 0, 0.85);
 }
