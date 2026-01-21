@@ -601,11 +601,7 @@
         const discordToggle = document.getElementById('discordWidgetToggle');
         const discordFrame = document.getElementById('discordWidgetFrame');
         discordToggle.addEventListener('click', function() {
-            if (discordFrame.style.display === 'none') {
-                discordFrame.style.display = 'block';
-            } else {
-                discordFrame.style.display = 'none';
-            }
+            discordFrame.classList.toggle('hidden');
         });
     </script>
 </body>
