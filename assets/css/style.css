@@ -1,3 +1,6 @@
+.hidden {
+    display: none !important;
+}
 /* Discord Widget Floating Button Styles */
 .discord-widget-float {
     position: fixed;
