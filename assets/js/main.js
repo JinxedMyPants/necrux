@@ -523,9 +523,9 @@ if (!prefersReducedMotion) {
     }
 
     // Sponsor cards animation
-    gsap.fromTo('.sponsor-card', { opacity: 0.95, y: 12 }, {
+    gsap.fromTo('.supporter-card', { opacity: 0.95, y: 12 }, {
         scrollTrigger: {
-            trigger: '.sponsors-grid',
+            trigger: '.supporter-grid',
             start: 'top 85%'
         },
         immediateRender: false,
