@@ -1319,6 +1319,13 @@ main,
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-lg);
 }
+    /* Super-specific override for sponsor-text visibility */
+    html body .sponsor-text {
+        display: block !important;
+        color: #fff !important;
+        opacity: 1 !important;
+        z-index: 9999 !important;
+    }
 
 .sponsor-card {
     position: relative;
