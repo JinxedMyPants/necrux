@@ -583,9 +583,31 @@
 
     <audio id="bgAudio" src="assets/bgm/NCX Anthem.mp3" preload="auto" loop></audio>
 
+    <!-- Discord Widget Floating Button (always on top, above back-to-top) -->
+    <div id="discord-widget-float" class="discord-widget-float">
+        <button id="discordWidgetToggle" class="discord-widget-toggle" aria-label="Open Discord chat">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord" width="32" height="32" class="discord-widget-icon">
+        </button>
+        <div id="discordWidgetFrame" class="discord-widget-frame" style="display:none;">
+            <iframe src="https://discord.com/widget?id=1370423342410104926&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" title="Never Negotiate Esports Discord"></iframe>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+        // Discord widget toggle logic
+        const discordToggle = document.getElementById('discordWidgetToggle');
+        const discordFrame = document.getElementById('discordWidgetFrame');
+        discordToggle.addEventListener('click', function() {
+            if (discordFrame.style.display === 'none') {
+                discordFrame.style.display = 'block';
+            } else {
+                discordFrame.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>
